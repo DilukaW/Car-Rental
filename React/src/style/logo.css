@@ -1,0 +1,23 @@
+.logo-img {
+    width: 150px; /* Default size */
+    height: auto; /* Maintain aspect ratio */
+}
+
+@media (max-width: 768px) {
+    .logo-img {
+        width: 100px; /* Smaller size for tablets and small screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .logo-img {
+        width: 80px; /* Smaller size for very small screens */
+    }
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap; /* Allows images to wrap to the next row */
+    justify-content: center; /* Centers items in the container */
+    gap: 10px; /* Adds spacing between images */
+}
