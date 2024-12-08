@@ -6,6 +6,7 @@ import CarDetails from './components/CarDetails';
 import Navbar from './components/Navbar';
 import BookingConfirmation from './components/BookingConfirmation';
 import PaymentGateway from './components/CheckOut';
+import AdminPage from './components/AdminPage';
 
 const App = () => {
   return (
@@ -13,7 +14,7 @@ const App = () => {
     <Router>
       <Routes>
 
-        <Route path="/" element={<CarRentalHome />} />
+        <Route path="/" element={<AdminPage />} />
         <Route path="/car-details/:carId" element={<CarDetails />} />
         <Route path="/book-now/:carName" element={<BookingConfirmation />} />
         <Route path="/checkout/:carName" element={<PaymentGateway />} />
