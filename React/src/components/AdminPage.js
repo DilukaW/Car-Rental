@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Container, Row, Col, Button, Table, Modal, Form, Navbar, Nav, NavDropdown, IconButton, Alert } from "react-bootstrap";
+import { Container, Row, Col, Button, Table, Modal, Form, Navbar, Nav, Alert } from "react-bootstrap";
 import { Trash, Pencil } from "react-bootstrap-icons";
 import { useForm } from "react-hook-form";
 import { FaWindowClose, FaBars, FaPlus, FaMale, FaCar, FaPersonBooth, FaSignOutAlt } from "react-icons/fa";
 import Navbar2 from "./Navbar";
+import ManageDrivers from "./ManageDrivers";
 
 const AdminPage = () => {
     const [vehicles, setVehicles] = useState([
@@ -17,26 +18,23 @@ const AdminPage = () => {
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarSeverity, setSnackbarSeverity] = useState("success");
     const [openSidebar, setOpenSidebar] = useState(true); // Sidebar state
+    const [activePage, setActivePage] = useState("manageVehicles"); // Track active page
 
     const { register, handleSubmit, reset } = useForm();
 
-    // Show Snackbar (Alert in Bootstrap)
     const showSnackbar = (message, severity) => {
         setSnackbarMessage(message);
         setSnackbarSeverity(severity);
         setOpenSnackbar(true);
     };
 
-    // Add or Edit Vehicle
     const handleFormSubmit = (data) => {
         if (selectedItem) {
-            // Edit
             setVehicles((prev) =>
                 prev.map((v) => (v.id === selectedItem.id ? { ...v, ...data } : v))
             );
             showSnackbar("Vehicle updated successfully", "success");
         } else {
-            // Add
             setVehicles((prev) => [
                 ...prev,
                 { id: Date.now(), ...data, availability: "Available" },
@@ -46,20 +44,17 @@ const AdminPage = () => {
         closeAddEditForm();
     };
 
-    // Delete Vehicle
     const handleDelete = (id) => {
         setVehicles((prev) => prev.filter((v) => v.id !== id));
         showSnackbar("Vehicle deleted successfully", "success");
     };
 
-    // Open Add/Edit Form
     const openAddEditForm = (item = null) => {
         setSelectedItem(item);
         setOpenForm(true);
         reset(item || {});
     };
 
-    // Close Add/Edit Form
     const closeAddEditForm = () => {
         setOpenForm(false);
         setSelectedItem(null);
@@ -68,8 +63,62 @@ const AdminPage = () => {
 
     const toggleSidebar = () => setOpenSidebar(!openSidebar);
 
+    const renderContent = () => {
+        switch (activePage) {
+            case "manageVehicles":
+                return (
+                    <>
+                        <Button
+                            variant="primary"
+                            className="my-4"
+                            onClick={() => openAddEditForm()}
+                        >
+                            <FaPlus /> Add Vehicle
+                        </Button>
+                        <Table striped bordered hover className="table table-dark">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Availability</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {vehicles.map((vehicle) => (
+                                    <tr key={vehicle.id}>
+                                        <td>{vehicle.id}</td>
+                                        <td>{vehicle.name}</td>
+                                        <td>{vehicle.type}</td>
+                                        <td>{vehicle.availability}</td>
+                                        <td>
+                                            <Button variant="warning" onClick={() => openAddEditForm(vehicle)}>
+                                                <Pencil />
+                                            </Button>
+                                            <Button variant="danger" onClick={() => handleDelete(vehicle.id)} style={{ marginLeft: "10px" }}>
+                                                <Trash />
+                                            </Button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </Table>
+                    </>
+                );
+            case "manageDrivers":
+                return <ManageDrivers />
+            case "myProfile":
+                return <h2 className="text-white">My Profile Page</h2>;
+            case "logout":
+                return <h2 className="text-white">Logout Page</h2>;
+            default:
+                return <h2 className="text-white">Select a page from the sidebar</h2>;
+        }
+    };
+
     return (
-        <div className=" homepage text-white" style={{ backgroundColor: "#0F0F24" }}>
+        <div className="homepage text-white" style={{ backgroundColor: "#0F0F24" }}>
             <Navbar2 />
             <div className="container-fluid" style={{ display: "flex", height: "100vh" }}>
                 {/* Sidebar */}
@@ -87,16 +136,27 @@ const AdminPage = () => {
                         paddingTop: "20px",
                     }}
                 >
-                    <Button className=" me-2" variant="light" onClick={toggleSidebar} style={{ marginLeft: "auto", display: "block" }}>
+                    <Button
+                        className="me-2"
+                        variant="light"
+                        onClick={toggleSidebar}
+                        style={{ marginLeft: "auto", display: "block" }}
+                    >
                         <FaWindowClose />
                     </Button>
                     <Nav className="flex-column" style={{ paddingLeft: "10px" }}>
-                        <Nav.Link href="#home" className="text-white">
-                            <FaCar className="me-3" />Mange Vehicles
+                        <Nav.Link onClick={() => setActivePage("manageVehicles")} className="text-white">
+                            <FaCar className="me-3" /> Manage Vehicles
                         </Nav.Link>
-                        <Nav.Link href="#manage" className="text-white"><FaPersonBooth className="me-3" />Manage Drivers</Nav.Link>
-                        <Nav.Link href="#manage" className="text-white"><FaMale className="me-3" />My Profile</Nav.Link>
-                        <Nav.Link href="#manage" className="text-white"><FaSignOutAlt className="me-3" />Logout</Nav.Link>
+                        <Nav.Link onClick={() => setActivePage("manageDrivers")} className="text-white">
+                            <FaPersonBooth className="me-3" /> Manage Drivers
+                        </Nav.Link>
+                        <Nav.Link onClick={() => setActivePage("myProfile")} className="text-white">
+                            <FaMale className="me-3" /> My Profile
+                        </Nav.Link>
+                        <Nav.Link onClick={() => setActivePage("logout")} className="text-white">
+                            <FaSignOutAlt className="me-3" /> Logout
+                        </Nav.Link>
                     </Nav>
                 </div>
 
@@ -109,7 +169,6 @@ const AdminPage = () => {
                         padding: "20px",
                     }}
                 >
-                    {/* Navbar (AppBar) */}
                     <Navbar bg="dark" className="rounded px-2" variant="dark" expand="lg" sticky="top">
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="ml-auto">
@@ -120,92 +179,19 @@ const AdminPage = () => {
                         </Navbar.Collapse>
                         <Navbar.Brand>Admin Dashboard</Navbar.Brand>
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-
                     </Navbar>
 
-                    {/* Snackbar (Bootstrap Alert) */}
                     {openSnackbar && (
-                        <Alert variant={snackbarSeverity} onClose={() => setOpenSnackbar(false)} dismissible>
+                        <Alert
+                            variant={snackbarSeverity}
+                            onClose={() => setOpenSnackbar(false)}
+                            dismissible
+                        >
                             {snackbarMessage}
                         </Alert>
                     )}
 
-                    {/* Add/Edit Vehicle Button */}
-                    <Button
-                        variant="primary"
-                        className="my-4"
-                        onClick={() => openAddEditForm()}
-
-                    >
-                        <FaPlus />  Add Vehicle
-                    </Button>
-
-                    {/* Vehicle Table */}
-                    <Table striped bordered hover className="table table-dark">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Type</th>
-                                <th>Availability</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {vehicles.map((vehicle) => (
-                                <tr key={vehicle.id}>
-                                    <td>{vehicle.id}</td>
-                                    <td>{vehicle.name}</td>
-                                    <td>{vehicle.type}</td>
-                                    <td>{vehicle.availability}</td>
-                                    <td>
-                                        <Button variant="warning" onClick={() => openAddEditForm(vehicle)}>
-                                            <Pencil />
-                                        </Button>
-                                        <Button variant="danger" onClick={() => handleDelete(vehicle.id)} style={{ marginLeft: "10px" }}>
-                                            <Trash />
-                                        </Button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </Table>
-
-                    {/* Add/Edit Vehicle Form Modal */}
-                    <Modal show={openForm} onHide={closeAddEditForm}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>{selectedItem ? "Edit Vehicle" : "Add Vehicle"}</Modal.Title>
-                        </Modal.Header>
-                        <Form onSubmit={handleSubmit(handleFormSubmit)}>
-                            <Modal.Body>
-                                <Form.Group controlId="vehicleName">
-                                    <Form.Label>Name</Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        placeholder="Enter vehicle name"
-                                        {...register("name", { required: true })}
-                                    />
-                                </Form.Group>
-
-                                <Form.Group controlId="vehicleType">
-                                    <Form.Label>Type</Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        placeholder="Enter vehicle type"
-                                        {...register("type", { required: true })}
-                                    />
-                                </Form.Group>
-                            </Modal.Body>
-                            <Modal.Footer>
-                                <Button variant="secondary" onClick={closeAddEditForm}>
-                                    Close
-                                </Button>
-                                <Button variant="primary" type="submit">
-                                    Save Changes
-                                </Button>
-                            </Modal.Footer>
-                        </Form>
-                    </Modal>
+                    {renderContent()}
                 </div>
             </div>
         </div>
