@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { FaWindowClose, FaBars, FaPlus, FaMale, FaCar, FaPersonBooth, FaSignOutAlt } from "react-icons/fa";
 import Navbar2 from "./Navbar";
 import ManageDrivers from "./ManageDrivers";
+import MyProfile from "./MyProfile";
 
 const AdminPage = () => {
     const [vehicles, setVehicles] = useState([
@@ -109,7 +110,7 @@ const AdminPage = () => {
             case "manageDrivers":
                 return <ManageDrivers />
             case "myProfile":
-                return <h2 className="text-white">My Profile Page</h2>;
+                return <MyProfile />
             case "logout":
                 return <h2 className="text-white">Logout Page</h2>;
             default:
