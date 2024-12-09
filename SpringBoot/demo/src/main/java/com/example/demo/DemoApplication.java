@@ -19,9 +19,6 @@ public class DemoApplication {
 		return "Hello World 2";
 	}
 
-	@GetMapping
-	public String Hello2(){
-		return "Hello World2";
-	}
+
 
 }

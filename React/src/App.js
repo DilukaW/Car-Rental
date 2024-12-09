@@ -14,7 +14,7 @@ const App = () => {
     <Router>
       <Routes>
 
-        <Route path="/" element={<AdminPage />} />
+        <Route path="/" element={<CarRentalHome />} />
         <Route path="/car-details/:carId" element={<CarDetails />} />
         <Route path="/book-now/:carName" element={<BookingConfirmation />} />
         <Route path="/checkout/:carName" element={<PaymentGateway />} />
