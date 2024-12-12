@@ -5,7 +5,7 @@ public class Car {
     private String id;
     private String name;
     private String type;
-    private String doors;
+    private String fuel;
     private String price;
     private String features;
     private String image;
@@ -35,12 +35,12 @@ public class Car {
         this.type = type;
     }
 
-    public String getDoors() {
-        return doors;
+    public String getFuel() {
+        return fuel;
     }
 
-    public void setDoors(String doors) {
-        this.doors = doors;
+    public void setFuel(String fuel) {
+        this.fuel = fuel;
     }
 
     public String getPrice() {

@@ -28,7 +28,7 @@ const CarCard = ({ car }) => {
                             <FaUsers /> <span>{car.seats} Seats</span>
                         </div>
                         <div className="feature-item">
-                            <FaDoorOpen /> <span>{car.doors} Doors</span>
+                            <FaDoorOpen /> <span>{car.fuel}</span>
                         </div>
                         <div className="feature-item">
                             <FaSnowflake /> <span>AC / Heater</span>
@@ -44,37 +44,39 @@ const CarCard = ({ car }) => {
     );
 };
 
-const CarCards = () => {
-    const cars = [
-        {
-            name: "Cadillac",
-            price: 80,
-            type: "SUV",
-            seats: 5,
-            doors: 4,
-            image: cadilac,
-        },
-        {
-            name: "BMW",
-            price: 70,
-            type: "Sedan",
-            seats: 4,
-            doors: 4,
-            image: bmw,
-        },
-        {
-            name: "Lamborghini",
-            price: 120,
-            type: "Convertible",
-            seats: 2,
-            doors: 2,
-            image: lambo,
-        },
-    ];
+const CarCards = ({ cars }) => {
+    // const cars = [
+    //     {
+    //         name: "Cadillac",
+    //         price: 80,
+    //         type: "SUV",
+    //         seats: 5,
+    //         doors: 4,
+    //         image: cadilac,
+    //     },
+    //     {
+    //         name: "BMW",
+    //         price: 70,
+    //         type: "Sedan",
+    //         seats: 4,
+    //         doors: 4,
+    //         image: bmw,
+    //     },
+    //     {
+    //         name: "Lamborghini",
+    //         price: 120,
+    //         type: "Convertible",
+    //         seats: 2,
+    //         doors: 2,
+    //         image: lambo,
+    //     },
+    // ];
 
     return (
-        <div className="container py-5">
+        <div className="d-flex flex-column container d-flex py-5">
+
             <h2 className="text-center text-white mb-4">Our Featured Cars</h2>
+
             <div className="row" >
                 {cars.map((car, index) => (
                     <CarCard key={index} car={car} />

@@ -1,7 +1,7 @@
 // src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import CarRentalHome from './components/CarRentalHome';
+import CarRentalHome from './page/CarRentalHome';
 import CarDetails from './components/CarDetails';
 import Navbar from './components/Navbar';
 import BookingConfirmation from './components/BookingConfirmation';
