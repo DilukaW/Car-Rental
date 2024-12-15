@@ -29,17 +29,17 @@ const CarRentalHome = () => {
     }, []);
 
 
-    return (
-        <div className="homepage text-white" style={{ backgroundColor: "#0F0F24", minHeight: "100vh" }}>
-            <Navbar />
-            <HeroBanner />
-            <LogosSection />
+    return (<div className="homepage text-white" style={{ backgroundColor: "#0F0F24", minHeight: "100vh" }}>
 
-            <CarCards cars={cars} />
 
-            <HowItWorks />
-            <Footer />
-        </div>
+        <HeroBanner />
+        <LogosSection />
+
+        <CarCards cars={cars} />
+
+        <HowItWorks />
+
+    </div>
     );
 };
 

@@ -1,13 +1,12 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
-import lambo from "../Images/lamborghiniCar.jpeg";
-import cadilac from "../Images/cadilacCar.jpeg";
-import bmw from "../Images/bmwCar.jpeg";
+
 import "../style/carCard.css";
 import { FaCar, FaUsers, FaSnowflake, FaDoorOpen } from "react-icons/fa";
 
 const CarCard = ({ car }) => {
+    if (!car) return null;
     return (
         <div className="col-lg-4 col-md-6 mb-4 d-flex">
             <div className="card bg-dark text-white w-100">
@@ -36,15 +35,18 @@ const CarCard = ({ car }) => {
                     </div>
                 </div>
                 <div className="card-footer d-flex justify-content-center">
-                    <Link to={`/car-details/${car.name}`} className="btn btn-outline-light btn-sm">Rent Now</Link>
+                    <Link to={`/car-details/${car.id}`} state={{ car }} className="btn btn-outline-light btn-sm">Rent Now</Link>
 
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 
 const CarCards = ({ cars }) => {
+    if (!cars || cars.length === 0) {
+        return <p>No cars available</p>;
+    }
     // const cars = [
     //     {
     //         name: "Cadillac",

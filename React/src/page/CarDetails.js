@@ -1,22 +1,24 @@
 import React, { useState } from "react";
-import Calendar from "react-calendar";
+
 import 'react-calendar/dist/Calendar.css';
-import { useParams, useNavigate } from "react-router-dom";
-import TimePicker from "react-time-picker";
+import { useNavigate } from "react-router-dom";
+
 import 'react-time-picker/dist/TimePicker.css';
-import Navbar from "./Navbar";
-import Footer from "./Footer";
-import { FaCar, FaUsers, FaSnowflake, FaDoorOpen, FaTicketAlt, FaOptinMonster, FaFeather } from "react-icons/fa";
-import lambo from "../Images/lamborghiniCar.jpeg";
-import cadilac from "../Images/cadilacCar.jpeg";
-import bmw from "../Images/bmwCar.jpeg";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import { FaCar, FaUsers, FaSnowflake, FaDoorOpen, FaFeather } from "react-icons/fa";
+
 import "../style/carCard.css";
+import { useLocation, useParams } from "react-router-dom";
 
 
 const App = () => {
-    const [date, setDate] = useState(new Date());
-    const [time, setTime] = useState("10:00");
-    const { carId } = useParams(); // Get the carId from the URL
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { car } = location.state || {}; // Access the passed state
+    const { carId } = useParams(); // Fallback for dynamic ID usage
+
+
     const [rentalType, setRentalType] = useState("Day");
     const [pickupLocation, setPickupLocation] = useState("");
     const [dropoffLocation, setDropoffLocation] = useState("");
@@ -24,45 +26,17 @@ const App = () => {
     const [pickupTime, setPickupTime] = useState("");
     const [dropoffDate, setDropoffDate] = useState("");
     const [dropoffTime, setDropoffTime] = useState("");
-    const [extraService, setExtraService] = useState(false);
+
     const [depositOption, setDepositOption] = useState("Pay Deposit");
 
+    if (!car) {
+        return <p>Car details not found. Please navigate from the home page.</p>;
+    }
 
-    // Define car data (could be fetched from an API or passed as props)
-    const cars = [
-        {
-            name: "Cadillac",
-            price: 80,
-            type: "SUV",
-            seats: 5,
-            doors: 4,
-            image: cadilac,
-            description: "A luxurious and comfortable SUV with all the latest features.",
-        },
-        {
-            name: "BMW",
-            price: 70,
-            type: "Sedan",
-            seats: 4,
-            doors: 4,
-            image: bmw,
-            description: "A sleek and sporty sedan with great performance.",
-        },
-        {
-            name: "Lamborghini",
-            price: 120,
-            type: "Convertible",
-            seats: 2,
-            doors: 2,
-            image: lambo,
-            description: "An exotic convertible with extreme speed and luxury.",
-        },
-    ];
 
-    // Find the car that matches the carId
-    const car = cars.find(c => c.name === carId);
 
-    const navigate = useNavigate();
+
+
 
     const handleBooking = (car) => {
         navigate(`/book-now/${car.name}`);
@@ -75,8 +49,7 @@ const App = () => {
 
     return (
         <div className="homepage text-white" style={{ backgroundColor: "#0F0F24", minHeight: "100vh" }}>
-            <Navbar />
-            <div style={styles.container} className="mb-5">
+            <div style={styles.container} className="">
                 <div className="container p-5 " style={styles.leftSection}>
 
                     <div className="row " style={{ height: "auto" }}>
@@ -100,7 +73,7 @@ const App = () => {
                                     <FaUsers /> Seats: {car.seats}
                                 </p>
                                 <p>
-                                    <FaDoorOpen /> Doors: {car.doors}
+                                    <FaDoorOpen /> Fuel: {car.fuel}
                                 </p>
                                 <p>
                                     <FaSnowflake /> AC / Heater
@@ -294,7 +267,7 @@ const App = () => {
                     </div>
                 </div>
             </div>
-            <Footer />
+
         </div>
 
     );

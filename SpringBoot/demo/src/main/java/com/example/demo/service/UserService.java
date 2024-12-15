@@ -1,2 +1,33 @@
-package com.example.demo.service;public class UserService {
+package com.example.demo.service;
+
+import com.example.demo.repository.UserRepository;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.UserRecord;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    public String registerUser(String email, String password, String displayName, String role,String street,String city,String contact) {
+        try {
+            // Create user in Firebase Authentication
+            UserRecord.CreateRequest createRequest = new UserRecord.CreateRequest()
+                    .setEmail(email)
+                    .setPassword(password)
+                    .setDisplayName(displayName);
+            UserRecord userRecord = FirebaseAuth.getInstance().createUser(createRequest);
+
+            // Save additional details in Firestore
+            userRepository.saveUserDetails(userRecord.getUid(), email, displayName, role,street,city,contact);
+
+            return "User registered successfully!";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Registration failed: " + e.getMessage();
+        }
+    }
 }

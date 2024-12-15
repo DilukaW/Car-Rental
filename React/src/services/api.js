@@ -11,3 +11,34 @@ export const fetchCars = async () => {
         throw error;
     }
 };
+
+
+// Function to register a new user with the backend
+export const registerWithBackend = async (email, password, displayName, street, city, contactNumber) => {
+    try {
+        const response = await axios.post('http://localhost:8081/api/register', {
+            email: email,
+            password: password,
+            displayName: displayName,
+            role: 'user',
+            street: street,
+            city: city,
+            contact: contactNumber
+
+        });
+        return response;
+    } catch (error) {
+
+        throw new Error(error.response?.data?.message || error.message);
+    }
+};
+
+// Function to log in using a token with the backend
+export const loginWithBackend = async (token) => {
+    try {
+        const response = await axios.post(`/auth/login?token=${token}`);
+        return response.data; // Axios automatically parses JSON responses
+    } catch (error) {
+        throw new Error(error.response?.data?.message || error.message);
+    }
+};
