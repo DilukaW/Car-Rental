@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 public class UserRequest {
+    private String id;
     private String email;
     private String password;
     private String displayName;
@@ -23,5 +24,7 @@ public class UserRequest {
     public String getCity() { return city; }
     public void setCity(String city) { this.city = city; }
     public String getContact() { return contact; }
+    public String getId() {return id;}
+    public void setId(String id) {this.id = id;}
     public void setContact(String contact) { this.contact = contact; }
 }

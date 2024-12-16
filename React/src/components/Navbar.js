@@ -1,6 +1,30 @@
+import React, { useState, useEffect } from 'react';
+import { fetchUsers } from '../services/api';
+import { getUserById } from '../services/api'
 const Navbar = () => {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        // Check if userId exists in localStorage
+        const userId = localStorage.getItem('userId');
+        if (userId) {
+            setIsLoggedIn(true);
+            const fetchData = async () => {
+                try {
+                    const userData = await getUserById(userId);
+                    setUser(userData);
+                    console.log(userData);
+                } catch (error) {
+                    console.error('Error fetching user data:', error);
+                }
+            };
+            fetchData();
+        }
+    }, []);
+
     return (
-        <div className="homepage text-white" style={{ backgroundColor: "#0F0F24", }}>
+        <div className="homepage text-white" style={{ backgroundColor: "#0F0F24" }}>
             <nav className="navbar navbar-expand-lg navbar-dark">
                 <div className="container">
                     <a className="navbar-brand" href="/">CarRentalPro</a>
@@ -32,12 +56,28 @@ const Navbar = () => {
                             <li className="nav-item">
                                 <a className="nav-link" href="#">Contact</a>
                             </li>
-                            <li className="nav-item">
-                                <a className="nav-link" to="/login" href="/login">Log In</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="btn btn-primary" to="/register" href="/register">Sign Up</a>
-                            </li>
+                            {isLoggedIn ? (
+                                <li className="nav-item d-flex align-items-center">
+                                    <img
+                                        src={user?.profileImage || '/default-profile.png'} // Default profile image if none exists
+                                        alt={`${user?.name}'s profile`}
+                                        className="rounded-circle"
+                                        style={{ width: '40px', height: '40px', marginRight: '10px' }}
+                                    />
+                                    <li className="nav-item">
+                                        <a className="nav-link" to="/dashboard" href="/dashboard">{user?.displayName || 'User'}</a>
+                                    </li>
+                                </li>
+                            ) : (
+                                <>
+                                    <li className="nav-item">
+                                        <a className="nav-link" to="/login" href="/login">Log In</a>
+                                    </li>
+                                    <li className="nav-item">
+                                        <a className="btn btn-primary" to="/register" href="/register">Sign Up</a>
+                                    </li>
+                                </>
+                            )}
                         </ul>
                     </div>
                 </div>
@@ -45,4 +85,5 @@ const Navbar = () => {
         </div>
     );
 };
+
 export default Navbar;

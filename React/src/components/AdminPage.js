@@ -120,7 +120,7 @@ const AdminPage = () => {
 
     return (
         <div className="homepage text-white" style={{ backgroundColor: "#0F0F24" }}>
-            <Navbar2 />
+
             <div className="container-fluid" style={{ display: "flex", height: "100vh" }}>
                 {/* Sidebar */}
                 <div

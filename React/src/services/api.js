@@ -12,6 +12,16 @@ export const fetchCars = async () => {
     }
 };
 
+// Function to register a new user with the backend
+export const getUserById = async (userId) => {
+    try {
+        const response = await axios.get(`http://localhost:8081/api/users/${userId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching cars:', error);
+        throw error;
+    }
+};
 
 // Function to register a new user with the backend
 export const registerWithBackend = async (email, password, displayName, street, city, contactNumber) => {
@@ -34,9 +44,12 @@ export const registerWithBackend = async (email, password, displayName, street, 
 };
 
 // Function to log in using a token with the backend
-export const loginWithBackend = async (token) => {
+export const loginWithBackend = async (email, password) => {
     try {
-        const response = await axios.post(`/auth/login?token=${token}`);
+        const response = await axios.post('http://localhost:8080/api/auth/login', {
+            email: email,
+            password: password
+        });
         return response.data; // Axios automatically parses JSON responses
     } catch (error) {
         throw new Error(error.response?.data?.message || error.message);

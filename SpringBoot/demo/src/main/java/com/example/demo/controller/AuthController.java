@@ -1,4 +1,5 @@
 package com.example.demo.controller;
+import com.example.demo.entity.Car;
 import com.example.demo.entity.UserRequest;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,7 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/api")
@@ -33,6 +36,12 @@ public class AuthController {
         } else {
             return ResponseEntity.badRequest().body(response);
         }
+    }
+
+    @CrossOrigin
+    @GetMapping("/users/{userId}")
+    public UserRequest getUserById(@PathVariable String userId) throws ExecutionException, InterruptedException {
+        return userService.getUserById(userId);
     }
 
 //    @PostMapping("/login")
