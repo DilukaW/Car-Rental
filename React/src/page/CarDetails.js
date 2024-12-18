@@ -55,10 +55,10 @@ const App = () => {
                     <div className="row " style={{ height: "auto" }}>
                         <div className="col-md-6">
                             <img
-                                src={car.image}
+                                src={`/Images/${car.name}Car.jpeg`}
                                 alt={car.name}
                                 className="img-fluid"
-                                style={{ height: "400px", objectFit: "cover" }}
+                                style={{ height: "400px" }}
                             />
                         </div>
                         <div className="col-md-6 bg-dark text-white rounded p-4" >
