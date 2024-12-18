@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { fetchUsers } from '../services/api';
 import { getUserById } from '../services/api'
+import profile from '../Images/profile.png'
 const Navbar = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState(null);
@@ -58,12 +59,14 @@ const Navbar = () => {
                             </li>
                             {isLoggedIn ? (
                                 <li className="nav-item d-flex align-items-center">
-                                    <img
-                                        src={user?.profileImage || '/default-profile.png'} // Default profile image if none exists
-                                        alt={`${user?.name}'s profile`}
-                                        className="rounded-circle"
-                                        style={{ width: '40px', height: '40px', marginRight: '10px' }}
-                                    />
+                                    <a className="" to="/dashboard" href="/dashboard">
+                                        <img
+                                            src={user?.profileImage || profile} // Default profile image if none exists
+                                            alt={`${user?.name}'s profile`}
+                                            className="rounded-circle ms-2"
+                                            style={{ width: '40px', height: '40px', marginRight: '10px' }}
+                                        />
+                                    </a>
                                     <li className="nav-item">
                                         <a className="nav-link" to="/dashboard" href="/dashboard">{user?.displayName || 'User'}</a>
                                     </li>

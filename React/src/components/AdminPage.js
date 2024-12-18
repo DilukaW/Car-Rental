@@ -18,7 +18,7 @@ const AdminPage = () => {
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarSeverity, setSnackbarSeverity] = useState("success");
-    const [openSidebar, setOpenSidebar] = useState(true); // Sidebar state
+    const [openSidebar, setOpenSidebar] = useState(false); // Sidebar state
     const [activePage, setActivePage] = useState("manageVehicles"); // Track active page
 
     const { register, handleSubmit, reset } = useForm();
@@ -119,9 +119,9 @@ const AdminPage = () => {
     };
 
     return (
-        <div className="homepage text-white" style={{ backgroundColor: "#0F0F24" }}>
+        <div className="homepage text-white" style={{ backgroundColor: "#0F0F24", }}>
 
-            <div className="container-fluid" style={{ display: "flex", height: "100vh" }}>
+            <div className="container-fluid" style={{ display: "flex", }}>
                 {/* Sidebar */}
                 <div
                     style={{
@@ -135,6 +135,7 @@ const AdminPage = () => {
                         zIndex: 1000,
                         overflowX: "hidden",
                         paddingTop: "20px",
+
                     }}
                 >
                     <Button
@@ -170,8 +171,9 @@ const AdminPage = () => {
                         padding: "20px",
                     }}
                 >
-                    <Navbar bg="dark" className="rounded px-2" variant="dark" expand="lg" sticky="top">
-                        <Navbar.Collapse id="basic-navbar-nav">
+                    <Navbar bg="dark" className="rounded px-2" variant="dark" expand="lg" sticky="top"
+                    >
+                        <Navbar.Collapse id="basic-navbar-nav" >
                             <Nav className="ml-auto">
                                 <Button variant="outline-light" onClick={toggleSidebar}>
                                     <FaBars />

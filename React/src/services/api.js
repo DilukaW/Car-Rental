@@ -23,6 +23,22 @@ export const getUserById = async (userId) => {
     }
 };
 
+// Function to update user details with the backend
+export const updateUserById = async (userId, updatedUser) => {
+    try {
+        const response = await axios.put(`http://localhost:8081/api/users/${userId}`, updatedUser, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error updating user:', error);
+        throw error;
+    }
+};
+
+
 // Function to register a new user with the backend
 export const registerWithBackend = async (email, password, displayName, street, city, contactNumber) => {
     try {

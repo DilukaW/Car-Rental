@@ -39,4 +39,8 @@ public class UserService {
     public UserRequest getUserById(String userId) throws ExecutionException, InterruptedException {
         return userRepository.getUserById(userId);
     }
+
+    public UserRequest updateUser(String userId, UserRequest updatedUser)throws ExecutionException, InterruptedException {
+        return userRepository.updateUser(userId,updatedUser);
+    }
 }

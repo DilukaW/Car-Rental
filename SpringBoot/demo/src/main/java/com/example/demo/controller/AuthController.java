@@ -3,6 +3,7 @@ import com.example.demo.entity.Car;
 import com.example.demo.entity.UserRequest;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,6 +43,24 @@ public class AuthController {
     @GetMapping("/users/{userId}")
     public UserRequest getUserById(@PathVariable String userId) throws ExecutionException, InterruptedException {
         return userService.getUserById(userId);
+    }
+
+    @CrossOrigin
+    @PutMapping("/users/{userId}")
+    public ResponseEntity<UserRequest> updateUser(
+            @PathVariable String userId,
+            @RequestBody UserRequest updatedUser) throws ExecutionException, InterruptedException {
+
+        // Call the service to update the user and retrieve the updated user data
+        UserRequest updatedUserData = userService.updateUser(userId, updatedUser);
+
+        if (updatedUserData != null) {
+            // Return the updated user data with a 200 OK status
+            return ResponseEntity.ok(updatedUserData);
+        } else {
+            // If the user was not found or update failed, return a 404 Not Found
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
 //    @PostMapping("/login")
