@@ -2,10 +2,7 @@ package com.example.demo.repository;
 
 import com.example.demo.entity.Car;
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.CollectionReference;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.stereotype.Repository;
 
@@ -49,5 +46,18 @@ public class CarRepository {
 
         // Add the document to Firestore
         docRef.set(carDetails);
+    }
+
+    // Delete a vehicle from Firestore by ID
+    public void deleteVehicle(String id) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        DocumentReference docRef = db.collection("Cars").document(id);
+
+        try {
+            // Attempt to delete the document
+            docRef.delete().get();
+        } catch (FirestoreException e) {
+            throw new RuntimeException("Failed to delete vehicle with ID: " + id, e);
+        }
     }
 }

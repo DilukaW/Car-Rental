@@ -32,6 +32,17 @@ export const addVehicle = async (name, type, fuel, price, features, seats) => {
     }
 };
 
+// Function to delete a car with the backend
+export const deleteCar = async (carId) => {
+    try {
+        const response = await axios.delete(`http://localhost:8081/api/cars/delete/${carId}`);
+        return response;
+    } catch (error) {
+        console.error('Error in deleting car:', error);
+        throw error;
+    }
+};
+
 // Function to register a new user with the backend
 export const getUserById = async (userId) => {
     try {

@@ -3,7 +3,7 @@ import { Button, Table, Navbar, Nav, Alert, Form, Modal } from "react-bootstrap"
 import { Trash, Pencil } from "react-bootstrap-icons";
 import { useForm } from "react-hook-form";
 import { FaWindowClose, FaBars, FaPlus, FaMale, FaCar, FaPersonBooth, FaSignOutAlt } from "react-icons/fa";
-import { fetchCars, addVehicle } from '../services/api';
+import { fetchCars, addVehicle, deleteCar } from '../services/api';
 import ManageDrivers from "../components/ManageDrivers";
 import MyProfile from "../components/MyProfile";
 
@@ -83,9 +83,25 @@ const AdminPage = () => {
             handleCloseModal(); // Close the modal in all cases
         }
     };
-    const handleDelete = (id) => {
-        setVehicles((prev) => prev.filter((v) => v.id !== id));
-        showSnackbar("Vehicle deleted successfully", "success");
+    const handleDelete = async (id) => {
+        try {
+            const response = await deleteCar(id);
+            if (response) {
+                showSnackbar("Vehicle deleted successfully", "success");
+            }
+        } catch (error) {
+            console.error('Error deleting vehicle:', error);
+        } finally {
+            try {
+                const carData = await fetchCars();
+                setCars(carData);
+                console.log(carData)
+            } catch (error) {
+                console.error('Error fetching car data:', error);
+            }
+        }
+
+
     };
 
     const openAddEditForm = (item = null) => {
@@ -138,7 +154,7 @@ const AdminPage = () => {
                                         <td>{vehicle.fuel}</td>
                                         <td>{vehicle.seats}</td>
                                         <td>{vehicle.price}</td>
-                                        <td>{vehicle.availability}</td>
+                                        <td>Available</td>
                                         <td>
                                             <Button variant="warning" onClick={() => openAddEditForm(vehicle)}>
                                                 <Pencil />
