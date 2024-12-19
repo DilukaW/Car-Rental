@@ -1,11 +1,8 @@
 import React, { useState } from "react";
-
 import 'react-calendar/dist/Calendar.css';
 import { useNavigate } from "react-router-dom";
-
 import 'react-time-picker/dist/TimePicker.css';
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+
 import { FaCar, FaUsers, FaSnowflake, FaDoorOpen, FaFeather } from "react-icons/fa";
 
 import "../style/carCard.css";
