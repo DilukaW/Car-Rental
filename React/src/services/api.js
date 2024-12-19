@@ -12,6 +12,26 @@ export const fetchCars = async () => {
     }
 };
 
+// Function to a new car with the backend
+export const addVehicle = async (name, type, fuel, price, features, seats) => {
+    try {
+        const response = await axios.post(`http://localhost:8081/api/cars/add`, {
+
+            features: features,
+            fuel: fuel,
+            name: name,
+            price: price,
+            seats: seats,
+            type: type,
+
+        });
+        return response;
+    } catch (error) {
+
+        throw new Error(error.response?.data?.message || error.message);
+    }
+};
+
 // Function to register a new user with the backend
 export const getUserById = async (userId) => {
     try {

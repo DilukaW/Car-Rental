@@ -1,11 +1,10 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.Car;
+import com.example.demo.entity.UserRequest;
 import com.example.demo.service.CarService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -23,5 +22,25 @@ public class CarController {
     @GetMapping
     public List<Car> getAllCars() throws ExecutionException, InterruptedException {
         return carService.getAllCars();
+    }
+
+    @CrossOrigin
+    @PostMapping("/add")
+    public ResponseEntity<?> addVehicle(@RequestBody Car car) {
+        String response = carService.addVehicle(
+                car.getName(),
+                car.getType(),
+                car.getFuel(),
+                car.getPrice(),
+                car.getFeatures(),
+                car.getSeats()
+        );
+        if (response.startsWith("Vehicle added successfully")) {
+            return ResponseEntity.ok(response);
+        } else {
+            System.out.println(ResponseEntity.badRequest().body(response));
+            return ResponseEntity.badRequest().body(response);
+
+        }
     }
 }

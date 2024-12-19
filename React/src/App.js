@@ -6,7 +6,7 @@ import CarDetails from './page/CarDetails';
 import Navbar from './components/Navbar';
 import BookingConfirmation from './components/BookingConfirmation';
 import PaymentGateway from './components/CheckOut';
-import AdminPage from './components/AdminPage';
+import AdminPage from './page/AdminPage';
 import Login from './page/Login';
 import Footer from './components/Footer';
 import Register from './page/Register';
