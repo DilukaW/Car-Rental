@@ -1,6 +1,7 @@
 package com.example.demo.repository;
 
 import com.example.demo.entity.Car;
+import com.example.demo.entity.UserRequest;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
@@ -58,6 +59,35 @@ public class CarRepository {
             docRef.delete().get();
         } catch (FirestoreException e) {
             throw new RuntimeException("Failed to delete vehicle with ID: " + id, e);
+        }
+    }
+
+    public Car updateVehicle(String carId, Car updatedCar) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        DocumentReference carRef = db.collection("Cars").document(carId);
+
+        // Update the document with the new user data
+        ApiFuture<WriteResult> future = carRef.set(updatedCar);
+
+        // Wait for the operation to complete
+        WriteResult result = future.get();
+
+        // If the update was successful, fetch the updated document
+        if (result != null) {
+            // Retrieve the updated document
+            ApiFuture<DocumentSnapshot> documentSnapshot = carRef.get();
+
+            // Wait for the snapshot and return the updated user data
+            DocumentSnapshot snapshot = documentSnapshot.get();
+
+            if (snapshot.exists()) {
+                // Assuming the User object has a constructor that accepts the document data
+                return snapshot.toObject(Car.class);
+            } else {
+                throw new RuntimeException("User document does not exist.");
+            }
+        } else {
+            throw new RuntimeException("Failed to update the user.");
         }
     }
 }

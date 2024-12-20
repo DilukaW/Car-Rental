@@ -4,7 +4,7 @@ import { Trash, Pencil } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { FaWindowClose, FaBars, FaPlus, FaMale, FaCar, FaPersonBooth, FaSignOutAlt } from "react-icons/fa";
-import { fetchCars, addVehicle, deleteCar, logoutUser } from '../services/api';
+import { fetchCars, addVehicle, deleteCar, logoutUser, updateCarById } from '../services/api';
 import ManageDrivers from "../components/ManageDrivers";
 import MyProfile from "../components/MyProfile";
 import { signOut } from 'firebase/auth';
@@ -49,7 +49,10 @@ const AdminPage = () => {
     const handleFormSubmit = async (data) => {
         try {
             if (selectedItem) {
+                console.log(data)
                 // Update existing vehicle logic
+                const response = await updateCarById(selectedItem.id, data);
+                console.log(response)
                 setVehicles((prev) =>
                     prev.map((v) => (v.id === selectedItem.id ? { ...v, ...data } : v))
                 );

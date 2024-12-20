@@ -58,4 +58,22 @@ public class CarController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @CrossOrigin
+    @PutMapping("/{carId}")
+    public ResponseEntity<Car> updateCar(
+            @PathVariable String carId,
+            @RequestBody Car updatedCar) throws ExecutionException, InterruptedException {
+
+        // Call the service to update the user and retrieve the updated user data
+        Car updatedCarData = carService.updateVehicle(carId, updatedCar);
+
+        if (updatedCarData != null) {
+            // Return the updated user data with a 200 OK status
+            return ResponseEntity.ok(updatedCarData);
+        } else {
+            // If the user was not found or update failed, return a 404 Not Found
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
 }

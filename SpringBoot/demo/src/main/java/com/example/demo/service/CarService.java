@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.Car;
+import com.example.demo.entity.UserRequest;
 import com.example.demo.repository.CarRepository;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.Firestore;
@@ -45,6 +46,10 @@ public class CarService {
             e.printStackTrace();
             return "failed: " + e.getMessage();
         }
+    }
+
+    public Car updateVehicle(String carId, Car updatedCar)throws ExecutionException, InterruptedException {
+        return carRepository.updateVehicle(carId,updatedCar);
     }
 
 }

@@ -32,6 +32,20 @@ export const addVehicle = async (name, type, fuel, price, features, seats) => {
     }
 };
 
+// Function to update car details with the backend
+export const updateCarById = async (carId, updatedCar) => {
+    try {
+        const response = await axios.put(`http://localhost:8081/api/cars/${carId}`, updatedCar, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error updating user:', error);
+        throw error;
+    }
+};
 
 
 // Function to delete a car with the backend
