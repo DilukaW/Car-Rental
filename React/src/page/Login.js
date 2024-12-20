@@ -21,7 +21,7 @@ const Login = () => {
                 localStorage.setItem('userId', user.uid);
                 const userId = localStorage.getItem('userId');
                 console.log(userId)
-                navigate('/dashboard');
+                window.location.href = "/dashboard"
                 setIsLoggedIn(true);
 
                 console.log('User is logged in:', user);

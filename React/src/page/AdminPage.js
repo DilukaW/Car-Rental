@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Table, Navbar, Nav, Alert, Form, Modal } from "react-bootstrap";
 import { Trash, Pencil } from "react-bootstrap-icons";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { FaWindowClose, FaBars, FaPlus, FaMale, FaCar, FaPersonBooth, FaSignOutAlt } from "react-icons/fa";
-import { fetchCars, addVehicle, deleteCar } from '../services/api';
+import { fetchCars, addVehicle, deleteCar, logoutUser } from '../services/api';
 import ManageDrivers from "../components/ManageDrivers";
 import MyProfile from "../components/MyProfile";
+import { signOut } from 'firebase/auth';
+import { auth } from '../firebase';
 
 const AdminPage = () => {
     const [vehicles, setVehicles] = useState([
@@ -20,7 +23,7 @@ const AdminPage = () => {
     const [showModal, setShowModal] = useState(false); // State to manage modal visibility
 
     const { register, handleSubmit, reset } = useForm();
-
+    const navigate = useNavigate();
     const [cars, setCars] = useState([]); // State to hold car data
 
     useEffect(() => {
@@ -103,6 +106,17 @@ const AdminPage = () => {
 
 
     };
+    const logout = async () => {
+        try {
+            await signOut(auth); // Ensure `auth` is imported from your Firebase configuration
+            showSnackbar("Logged out successfully", "success"); // Optional: Provide feedback
+            localStorage.clear()
+            window.location.href = "/login" // Redirect to login page after logout
+        } catch (error) {
+            console.error("Error in logging out:", error);
+            showSnackbar("Failed to logout. Please try again.", "error");
+        }
+    };
 
     const openAddEditForm = (item = null) => {
         setSelectedItem(item);
@@ -174,7 +188,7 @@ const AdminPage = () => {
             case "myProfile":
                 return <MyProfile />;
             case "logout":
-                return <h2 className="text-white">Logout Page</h2>;
+                return <></>
             default:
                 return <h2 className="text-white">Select a page from the sidebar</h2>;
         }
@@ -216,7 +230,7 @@ const AdminPage = () => {
                         <Nav.Link onClick={() => setActivePage("myProfile")} className="text-white">
                             <FaMale className="me-3" /> My Profile
                         </Nav.Link>
-                        <Nav.Link onClick={() => setActivePage("logout")} className="text-white">
+                        <Nav.Link onClick={logout} className="text-white">
                             <FaSignOutAlt className="me-3" /> Logout
                         </Nav.Link>
                     </Nav>
@@ -317,7 +331,7 @@ const AdminPage = () => {
             </Modal>
 
 
-        </div>
+        </div >
     );
 };
 

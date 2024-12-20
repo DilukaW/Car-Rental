@@ -131,7 +131,7 @@ export const registerWithBackend = async (email, password, displayName, street, 
 // Function to log in using a token with the backend
 export const loginWithBackend = async (email, password) => {
     try {
-        const response = await axios.post('http://localhost:8080/api/auth/login', {
+        const response = await axios.post('http://localhost:8081/api/auth/login', {
             email: email,
             password: password
         });
@@ -144,8 +144,8 @@ export const loginWithBackend = async (email, password) => {
 // Function to log in using a token with the backend
 export const logoutUser = async () => {
     try {
-        const response = await axios.post('http://localhost:8080/api/logout', {
-            withCredentials: true,
+        const response = await axios.get('http://localhost:8081/api/logout', {
+
         });
         return response; // Axios automatically parses JSON responses
     } catch (error) {

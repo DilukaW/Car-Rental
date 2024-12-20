@@ -64,7 +64,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
-    @CrossOrigin
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/logout")
     public ResponseEntity<String> logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false); // Retrieve the session if it exists
