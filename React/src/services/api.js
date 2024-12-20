@@ -42,7 +42,7 @@ export const updateCarById = async (carId, updatedCar) => {
         });
         return response.data;
     } catch (error) {
-        console.error('Error updating user:', error);
+        console.error('Error updating car:', error);
         throw error;
     }
 };
@@ -84,7 +84,20 @@ export const addDriver = async (name, email, contact) => {
         throw new Error(error.response?.data?.message || error.message);
     }
 };
-
+// Function to update car details with the backend
+export const updateDriverById = async (driverId, updatedDriver) => {
+    try {
+        const response = await axios.put(`http://localhost:8081/api/drivers/${driverId}`, updatedDriver, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error updating driver:', error);
+        throw error;
+    }
+};
 // Function to delete a car with the backend
 export const deleteDriver = async (driverId) => {
     try {

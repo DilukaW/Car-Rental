@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.entity.Car;
 import com.example.demo.service.DriverService;
 import com.example.demo.entity.Driver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,23 @@ public class DriverController {
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    @CrossOrigin
+    @PutMapping("/{driverId}")
+    public ResponseEntity<Driver> updateCar(
+            @PathVariable String driverId,
+            @RequestBody Driver updatedDriver) throws ExecutionException, InterruptedException {
+
+        // Call the service to update the user and retrieve the updated user data
+        Driver updatedDriverData = driverService.updateDriver(driverId, updatedDriver);
+
+        if (updatedDriverData != null) {
+            // Return the updated user data with a 200 OK status
+            return ResponseEntity.ok(updatedDriverData);
+        } else {
+            // If the user was not found or update failed, return a 404 Not Found
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 }

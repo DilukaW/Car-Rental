@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.entity.Car;
 import com.example.demo.entity.Driver;
 import com.example.demo.repository.DriverRepository;
 import com.google.cloud.firestore.FirestoreException;
@@ -41,6 +42,10 @@ public class DriverService {
             e.printStackTrace();
             return "failed: " + e.getMessage();
         }
+    }
+
+    public Driver updateDriver(String driverId, Driver updatedDriver)throws ExecutionException, InterruptedException {
+        return driverRepository.updateDriver(driverId,updatedDriver);
     }
 
 }

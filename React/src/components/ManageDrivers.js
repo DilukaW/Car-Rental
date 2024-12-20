@@ -3,7 +3,7 @@ import { Button, Table, Modal, Form, Alert } from "react-bootstrap";
 import { Trash, Pencil } from "react-bootstrap-icons";
 import { useForm } from "react-hook-form";
 
-import { addDriver, deleteDriver, fetchDrivers } from "../services/api";
+import { addDriver, deleteDriver, fetchDrivers, updateDriverById } from "../services/api";
 import { FaPlus } from "react-icons/fa";
 
 const ManageDrivers = () => {
@@ -39,6 +39,8 @@ const ManageDrivers = () => {
     const handleFormSubmit = async (data) => {
         try {
             if (selectedItem) {
+
+                await updateDriverById(selectedItem.id, data)
                 setDrivers((prev) =>
                     prev.map((v) => (v.id === selectedItem.id ? { ...v, ...data } : v))
                 );

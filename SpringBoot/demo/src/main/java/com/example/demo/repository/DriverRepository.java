@@ -58,4 +58,33 @@ public class DriverRepository {
         }
     }
 
+    public Driver updateDriver(String driverId, Driver updatedDriver) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        DocumentReference driverRef = db.collection("Drivers").document(driverId);
+
+        // Update the document with the new user data
+        ApiFuture<WriteResult> future = driverRef.set(updatedDriver);
+
+        // Wait for the operation to complete
+        WriteResult result = future.get();
+
+        // If the update was successful, fetch the updated document
+        if (result != null) {
+            // Retrieve the updated document
+            ApiFuture<DocumentSnapshot> documentSnapshot = driverRef.get();
+
+            // Wait for the snapshot and return the updated user data
+            DocumentSnapshot snapshot = documentSnapshot.get();
+
+            if (snapshot.exists()) {
+                // Assuming the User object has a constructor that accepts the document data
+                return snapshot.toObject(Driver.class);
+            } else {
+                throw new RuntimeException("User document does not exist.");
+            }
+        } else {
+            throw new RuntimeException("Failed to update the user.");
+        }
+    }
+
 }
