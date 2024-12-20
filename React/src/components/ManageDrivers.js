@@ -1,26 +1,34 @@
-import React, { useState } from "react";
-import { Container, Row, Col, Button, Table, Modal, Form, Navbar, Nav, Alert } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Button, Table, Modal, Form, Alert } from "react-bootstrap";
 import { Trash, Pencil } from "react-bootstrap-icons";
 import { useForm } from "react-hook-form";
-import { FaWindowClose, FaBars, FaPlus, FaMale, FaCar, FaPersonBooth, FaSignOutAlt } from "react-icons/fa";
-import Navbar2 from "./Navbar";
+
+import { addDriver, deleteDriver, fetchDrivers } from "../services/api";
+import { FaPlus } from "react-icons/fa";
 
 const ManageDrivers = () => {
-    const [vehicles, setVehicles] = useState([
-        { id: 1, name: "Toyota Prius", type: "Car", availability: "Available" },
-        { id: 2, name: "Ford F-150", type: "Truck", availability: "Unavailable" },
-        { id: 3, name: "Honda Civic", type: "Car", availability: "Available" },
-    ]);
 
-    const [openForm, setOpenForm] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
-    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [showModal, setShowModal] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarSeverity, setSnackbarSeverity] = useState("success");
-    const [openSidebar, setOpenSidebar] = useState(true); // Sidebar state
-    const [activePage, setActivePage] = useState("manageVehicles"); // Track active page
 
     const { register, handleSubmit, reset } = useForm();
+    const [drivers, setDrivers] = useState([]); // State to hold driver data
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const driverData = await fetchDrivers();
+                setDrivers(driverData);
+                console.log(driverData)
+            } catch (error) {
+                console.error('Error fetching car data:', error);
+            }
+        };
+        fetchData();
+    }, []);
 
     const showSnackbar = (message, severity) => {
         setSnackbarMessage(message);
@@ -28,76 +36,165 @@ const ManageDrivers = () => {
         setOpenSnackbar(true);
     };
 
-    const handleFormSubmit = (data) => {
-        if (selectedItem) {
-            setVehicles((prev) =>
-                prev.map((v) => (v.id === selectedItem.id ? { ...v, ...data } : v))
-            );
-            showSnackbar("Vehicle updated successfully", "success");
-        } else {
-            setVehicles((prev) => [
-                ...prev,
-                { id: Date.now(), ...data, availability: "Available" },
-            ]);
-            showSnackbar("Vehicle added successfully", "success");
+    const handleFormSubmit = async (data) => {
+        try {
+            if (selectedItem) {
+                setDrivers((prev) =>
+                    prev.map((v) => (v.id === selectedItem.id ? { ...v, ...data } : v))
+                );
+                showSnackbar("Driver updated successfully", "success");
+            } else {
+
+                const response = await addDriver(data.name, data.email, data.contact);
+                if (response?.data) {
+                    setDrivers((prev) => [
+                        ...prev,
+                        { id: Date.now(), ...data, availability: "Available" },
+                    ]);
+                    showSnackbar("Driver added successfully", "success");
+                }
+            }
+        } catch (error) {
+            console.error("Error adding or updating driver:", error.message);
+            // showSnackbar("Vehicle added successfully", "success");
+            showSnackbar("An error occurred. Please try again.", "error");
+        } finally {
+            handleCloseModal();
         }
-        closeAddEditForm();
     };
 
-    const handleDelete = (id) => {
-        setVehicles((prev) => prev.filter((v) => v.id !== id));
-        showSnackbar("Vehicle deleted successfully", "success");
+    const handleDelete = async (id) => {
+
+        // console.log(id)
+        try {
+            const response = await deleteDriver(id);
+            if (response) {
+                showSnackbar("Vehicle deleted successfully", "success");
+            }
+        } catch (error) {
+            console.error('Error deleting vehicle:', error);
+        } finally {
+
+            const driverData = await fetchDrivers();
+            setDrivers(driverData);
+            console.log(driverData);
+
+        }
     };
 
     const openAddEditForm = (item = null) => {
         setSelectedItem(item);
-        setOpenForm(true);
+        setShowModal(true);
         reset(item || {});
     };
 
-    const closeAddEditForm = () => {
-        setOpenForm(false);
+    const handleCloseModal = () => {
+        setShowModal(false);
         setSelectedItem(null);
         reset();
     };
 
-    return (<><Button
-        variant="primary"
-        className="my-4"
-        onClick={() => openAddEditForm()}
-    >
-        <FaPlus /> Add Driver
-    </Button><Table striped bordered hover className="table table-dark">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Availability</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {vehicles.map((vehicle) => (
-                    <tr key={vehicle.id}>
-                        <td>{vehicle.id}</td>
-                        <td>{vehicle.name}</td>
-                        <td>{vehicle.type}</td>
-                        <td>{vehicle.availability}</td>
-                        <td>
-                            <Button variant="warning" onClick={() => openAddEditForm(vehicle)}>
-                                <Pencil />
-                            </Button>
-                            <Button variant="danger" onClick={() => handleDelete(vehicle.id)} style={{ marginLeft: "10px" }}>
-                                <Trash />
-                            </Button>
-                        </td>
+    return (
+        <>
+            {openSnackbar && (
+                <Alert variant={snackbarSeverity === "success" ? "success" : "danger"} onClose={() => setOpenSnackbar(false)} dismissible>
+                    {snackbarMessage}
+                </Alert>
+            )}
+            <Button
+                variant="primary"
+                className="my-4"
+                onClick={() => openAddEditForm()}
+            >
+                <FaPlus /> Add Driver
+            </Button>
+            <Table striped bordered hover className="table table-dark">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Driver Name</th>
+                        <th>Email</th>
+                        <th>Contact Number</th>
+                        <th>Availability</th>
+                        <th>Actions</th>
                     </tr>
-                ))}
-            </tbody>
-        </Table></>
-    );
+                </thead>
+                <tbody>
+                    {drivers.map((driver, index) => (
+                        <tr key={driver.id}>
+                            <td>{index + 1}</td>
+                            <td>{driver.name}</td>
+                            <td>{driver.email}</td>
+                            <td>{driver.contact}</td>
+                            <td>Available</td>
+                            <td>
+                                <Button
+                                    variant="warning"
+                                    onClick={() => openAddEditForm(driver)}
+                                >
+                                    <Pencil />
+                                </Button>
+                                <Button
+                                    variant="danger"
+                                    onClick={() => handleDelete(driver.id)}
+                                    style={{ marginLeft: "10px" }}
+                                >
+                                    <Trash />
+                                </Button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </Table>
 
-}
+            {/* Add/Edit Driver Modal */}
+            <Modal show={showModal} onHide={handleCloseModal} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>{selectedItem ? "Edit Driver" : "Add Driver"}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form onSubmit={handleSubmit(handleFormSubmit)}>
+                        <Form.Group controlId="name">
+                            <Form.Label>Driver Name</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="Enter driver name"
+                                {...register("name", { required: true })}
+                            />
+                        </Form.Group>
+                        <Form.Group controlId="email">
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="Enter Email"
+                                {...register("email", { required: true })}
+                            />
+                        </Form.Group>
+                        <Form.Group controlId="contact">
+                            <Form.Label>Contact</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="Enter Contact Number"
+                                {...register("contact", { required: true })}
+                            />
+                        </Form.Group>
+
+
+                        <Button variant="primary" type="submit" className="my-3">
+                            {selectedItem ? "Update Driver" : "Add Driver"}
+                        </Button>
+                        <Button
+                            variant="secondary"
+                            onClick={handleCloseModal}
+                            className="my-3 ms-2"
+                        >
+                            Cancel
+                        </Button>
+                    </Form>
+                </Modal.Body>
+            </Modal>
+        </>
+    );
+};
 
 export default ManageDrivers;

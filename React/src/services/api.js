@@ -32,6 +32,8 @@ export const addVehicle = async (name, type, fuel, price, features, seats) => {
     }
 };
 
+
+
 // Function to delete a car with the backend
 export const deleteCar = async (carId) => {
     try {
@@ -43,6 +45,42 @@ export const deleteCar = async (carId) => {
     }
 };
 
+export const fetchDrivers = async () => {
+    try {
+        const response = await axios.get(`http://localhost:8081/api/drivers`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching drivers:', error);
+        throw error;
+    }
+};
+
+// Function to a new driver with the backend
+export const addDriver = async (name, email, contact) => {
+    try {
+        const response = await axios.post(`http://localhost:8081/api/drivers/add`, {
+
+            name: name,
+            email: email,
+            contact: contact
+
+        });
+        return response;
+    } catch (error) {
+        throw new Error(error.response?.data?.message || error.message);
+    }
+};
+
+// Function to delete a car with the backend
+export const deleteDriver = async (driverId) => {
+    try {
+        const response = await axios.delete(`http://localhost:8081/api/drivers/delete/${driverId}`);
+        return response;
+    } catch (error) {
+        console.error('Error in deleting driver:', error);
+        throw error;
+    }
+};
 // Function to register a new user with the backend
 export const getUserById = async (userId) => {
     try {
@@ -102,3 +140,16 @@ export const loginWithBackend = async (email, password) => {
         throw new Error(error.response?.data?.message || error.message);
     }
 };
+
+// Function to log in using a token with the backend
+export const logoutUser = async () => {
+    try {
+        const response = await axios.post('http://localhost:8080/api/logout', {
+            withCredentials: true,
+        });
+        return response; // Axios automatically parses JSON responses
+    } catch (error) {
+        throw new Error(error.response?.data?.message || error.message);
+    }
+};
+
