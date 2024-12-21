@@ -61,7 +61,7 @@ const MyProfile = () => {
                         <Card.Body>
                             <div className="text-center mb-4">
                                 <Image
-                                    src={profile.profilePicture || '../Images/profile.png'}
+                                    src={profile.image || '../Images/profile.png'}
                                     roundedCircle
                                     style={{ width: "150px", height: "150px", objectFit: "cover" }}
                                     className="border"
@@ -71,7 +71,7 @@ const MyProfile = () => {
                                         <Form.Label className="text-white">Profile Picture URL</Form.Label>
                                         <Form.Control
                                             type="text"
-                                            value={tempProfile.profilePicture || ''}
+                                            value={tempProfile.image || ''}
                                             onChange={(e) => handleInputChange("profilePicture", e.target.value)}
                                         />
                                     </Form.Group>

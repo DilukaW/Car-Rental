@@ -11,7 +11,8 @@ const CarCard = ({ car }) => {
         <div className="col-lg-4 col-md-6 mb-4 d-flex">
             <div className="card bg-dark text-white w-100">
                 <img
-                    src={`/Images/${car.name}Car.jpeg`}
+                    // src={`/Images/${car.name}Car.jpeg`}
+                    src={car.image}
                     className="card-img-top"
                     alt={car.name}
                     style={{ height: "200px", objectFit: "cover" }}

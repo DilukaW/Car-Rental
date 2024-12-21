@@ -52,7 +52,8 @@ const App = () => {
                     <div className="row " style={{ height: "auto" }}>
                         <div className="col-md-6">
                             <img
-                                src={`/Images/${car.name}Car.jpeg`}
+                                // src={`/Images/${car.name}Car.jpeg`}
+                                src={car.image}
                                 alt={car.name}
                                 className="img-fluid"
                                 style={{ height: "400px" }}

@@ -27,4 +27,7 @@ public class UserRequest {
     public String getId() {return id;}
     public void setId(String id) {this.id = id;}
     public void setContact(String contact) { this.contact = contact; }
+    private String image;
+    public String getImage() {return image;}
+    public void setImage(String image) {this.image = image;}
 }

@@ -17,7 +17,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public String registerUser(String email, String password, String displayName, String role,String street,String city,String contact) {
+    public String registerUser(String email, String password, String displayName, String role,String street,String city,String contact,String image) {
         try {
             // Create user in Firebase Authentication
             UserRecord.CreateRequest createRequest = new UserRecord.CreateRequest()
@@ -27,7 +27,7 @@ public class UserService {
             UserRecord userRecord = FirebaseAuth.getInstance().createUser(createRequest);
 
             // Save additional details in Firestore
-            userRepository.saveUserDetails(userRecord.getUid(), email, displayName, role,street,city,contact);
+            userRepository.saveUserDetails(userRecord.getUid(), email, displayName, role,street,city,contact,image);
 
             return "User registered successfully!";
         } catch (Exception e) {

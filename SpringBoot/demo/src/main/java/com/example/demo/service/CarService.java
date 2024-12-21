@@ -26,10 +26,10 @@ public class CarService {
         return carRepository.getAllCars();
     }
 
-    public String addVehicle(String name, String type, String fuel, String price, String features, String seats) {
+    public String addVehicle(String name, String type, String fuel, String image,String price, String features, String seats) {
         try {
 
-            carRepository.addVehicle(name,type,fuel,price,features,seats);
+            carRepository.addVehicle(name,type,fuel,image,price,features,seats);
 
             return "Car added successfully!";
         } catch (Exception e) {

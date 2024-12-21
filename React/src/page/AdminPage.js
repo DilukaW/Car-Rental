@@ -21,7 +21,7 @@ const AdminPage = () => {
     const [openSidebar, setOpenSidebar] = useState(false); // Sidebar state
     const [activePage, setActivePage] = useState("manageVehicles"); // Track active page
     const [showModal, setShowModal] = useState(false); // State to manage modal visibility
-
+    const [image, setImage] = useState(null);
     const { register, handleSubmit, reset } = useForm();
     const navigate = useNavigate();
     const [cars, setCars] = useState([]); // State to hold car data
@@ -114,7 +114,7 @@ const AdminPage = () => {
             await signOut(auth); // Ensure `auth` is imported from your Firebase configuration
             showSnackbar("Logged out successfully", "success"); // Optional: Provide feedback
             localStorage.clear()
-            window.location.href = "/login" // Redirect to login page after logout
+            window.location.href = "/" // Redirect to login page after logout
         } catch (error) {
             console.error("Error in logging out:", error);
             showSnackbar("Failed to logout. Please try again.", "error");
@@ -312,6 +312,14 @@ const AdminPage = () => {
                                 type="text"
                                 placeholder="Enter number of seats"
                                 {...register("seats", { required: true })}
+                            />
+                        </Form.Group>
+                        <Form.Group controlId="image">
+                            <Form.Label>Image Url</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="Enter image url"
+                                {...register("image", { required: true })}
                             />
                         </Form.Group>
                         <Form.Group controlId="price">

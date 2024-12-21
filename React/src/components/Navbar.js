@@ -61,7 +61,7 @@ const Navbar = () => {
                                 <li className="nav-item d-flex align-items-center">
                                     <a className="" to="/dashboard" href="/dashboard">
                                         <img
-                                            src={user?.profileImage || profile} // Default profile image if none exists
+                                            src={user?.image || profile} // Default profile image if none exists
                                             alt={`${user?.name}'s profile`}
                                             className="rounded-circle ms-2"
                                             style={{ width: '40px', height: '40px', marginRight: '10px' }}

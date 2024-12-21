@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import CarRentalHome from './page/CarRentalHome';
 import CarDetails from './page/CarDetails';
 import Navbar from './components/Navbar';
-import BookingConfirmation from './components/BookingConfirmation';
+import BookingConfirmation from './page/BookingConfirmation';
 import PaymentGateway from './components/CheckOut';
 import AdminPage from './page/AdminPage';
 import Login from './page/Login';

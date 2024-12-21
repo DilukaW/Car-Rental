@@ -1,8 +1,8 @@
 // src/components/BookingConfirmation.js
 import React from 'react';
 import { useParams, navigate, useNavigate } from 'react-router-dom';
-import Navbar from './Navbar';
-import Footer from './Footer';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 import { FaCar, FaUsers, FaSnowflake, FaDoorOpen, FaTicketAlt, FaOptinMonster, FaFeather, FaCartPlus } from "react-icons/fa";
 
 
@@ -15,10 +15,10 @@ const BookingConfirmation = () => {
     };
 
     return (
-        <div className="homepage text-white" style={{ backgroundColor: "#0F0F24" }}>
-            <Navbar />
-            <div className="container my-5" >
-                <div className="table-responsive col-md-10">
+        <div className="homepage text-white" style={{ backgroundColor: "#0F0F24", }}>
+
+            <div className="container" >
+                <div className="table-responsive col-md-10 my-5">
                     <table className="table table-dark table-borderless">
                         <thead>
                             <tr class="table-active">
@@ -62,7 +62,7 @@ const BookingConfirmation = () => {
                     </table>
                 </div>
             </div>
-            <Footer />
+
         </div>
 
     );

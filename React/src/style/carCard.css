@@ -13,12 +13,10 @@ body {
   
   .card-title {
     font-weight: 600;
-    margin-bottom: 10px;
+  
   }
   
-  .card-text {
-    margin-bottom: 15px;
-  }
+
   
   .btn-outline-light {
     border-color: #ccc;
@@ -36,7 +34,7 @@ body {
   }
   
   .card {
-    min-height: 350px; /* Ensures uniform height for all cards */
+    min-height: 250px; /* Ensures uniform height for all cards */
   }
   
   .features-grid {

@@ -25,13 +25,13 @@ const PaymentGateway = () => {
     return (
 
         <div className="homepage text-white " style={{ backgroundColor: "#0F0F24" }}>
-            <Navbar />
-            <div className="container d-flex flex-column justify-content-center align-items-center mb-4">
+
+            <div className="container d-flex flex-column justify-content-center align-items-center ">
                 <h1 className="mb-4">Payment Gateway</h1>
 
-                <div className="col-md-6 card bg-dark text-white p-4 ">
+                <div className="col-md-6 card bg-dark text-white p-4 mb-4">
                     <form onSubmit={handleSubmit}>
-                        <div className="mb-3">
+                        <div className="">
                             <label htmlFor="cardNumber" className="form-label">Card Number</label>
                             <input
                                 type="text"
@@ -91,7 +91,7 @@ const PaymentGateway = () => {
                     </form>
                 </div>
             </div>
-            <Footer />
+
         </div>
     );
 };

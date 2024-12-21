@@ -31,7 +31,7 @@ public class CarRepository {
         return carList;
     }
 
-    public void addVehicle(String name, String type, String fuel, String price, String features,String seats) throws ExecutionException, InterruptedException {
+    public void addVehicle(String name, String type, String fuel,String image, String price, String features,String seats) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         DocumentReference docRef = db.collection("Cars").document();
 
@@ -40,7 +40,7 @@ public class CarRepository {
         carDetails.put("name", name);
         carDetails.put("type", type);
         carDetails.put("fuel", fuel);
-
+        carDetails.put("image",image);
         carDetails.put("price", price);
         carDetails.put("features", features);
         carDetails.put("seats",seats);

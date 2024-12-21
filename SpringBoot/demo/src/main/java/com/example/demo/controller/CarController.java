@@ -36,6 +36,7 @@ public class CarController {
                 car.getName(),
                 car.getType(),
                 car.getFuel(),
+                car.getImage(),
                 car.getPrice(),
                 car.getFeatures(),
                 car.getSeats()

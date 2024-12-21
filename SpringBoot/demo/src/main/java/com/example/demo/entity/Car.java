@@ -8,7 +8,7 @@ public class Car {
     private String fuel;
     private String price;
     private String features;
-//    private String image;
+    private String image;
     private String seats;
 
     public String getId() {
@@ -59,13 +59,13 @@ public class Car {
         this.features = features;
     }
 
-//    public String getImage() {
-//        return image;
-//    }
-//
-//    public void setImage(String image) {
-//        this.image = image;
-//    }
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     public String getSeats() {
         return seats;

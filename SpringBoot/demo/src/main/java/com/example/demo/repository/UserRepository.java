@@ -16,7 +16,7 @@ import java.util.concurrent.ExecutionException;
 @Repository
 public class UserRepository {
 
-    public void saveUserDetails(String userId, String email, String displayName, String role,String street,String city,String contact) throws ExecutionException, InterruptedException {
+    public void saveUserDetails(String userId, String email, String displayName, String role,String street,String city,String contact,String image) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         DocumentReference docRef = db.collection("Users").document(userId);
 
@@ -27,6 +27,7 @@ public class UserRepository {
         userDetails.put("street", street);
         userDetails.put("contact", contact);
         userDetails.put("city", city);
+        userDetails.put("image",image);
 
         // Add the document to Firestore
         docRef.set(userDetails).get();

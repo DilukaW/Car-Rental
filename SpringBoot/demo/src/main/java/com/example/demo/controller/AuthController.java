@@ -31,7 +31,8 @@ public class AuthController {
                 userRequest.getRole(),
                 userRequest.getStreet(),
                 userRequest.getCity(),
-                userRequest.getContact()
+                userRequest.getContact(),
+                userRequest.getImage()
 
         );
         if (response.startsWith("User registered successfully")) {
