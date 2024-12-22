@@ -1,11 +1,13 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.Booking;
+import com.example.demo.entity.Car;
 import com.example.demo.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -46,4 +48,10 @@ public class BookingController {
 
         }
     }
+    @CrossOrigin
+    @GetMapping
+    public List<Booking> getAllBookings() throws ExecutionException, InterruptedException {
+        return bookingService.getAllBookings();
+    }
+
 }

@@ -98,5 +98,14 @@ public class Booking {
         this.price = price;
     }
 
+    public String getPayment() {
+        return payment;
+    }
+
+    public void setPayment(String payment) {
+        this.payment = payment;
+    }
+
+
 
 }

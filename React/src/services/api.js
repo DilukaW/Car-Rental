@@ -227,3 +227,13 @@ export const addBooking = async (
         throw new Error(error.response?.data?.message || error.message);
     }
 };
+
+export const fetchBookings = async () => {
+    try {
+        const response = await axios.get(`http://localhost:8081/api/bookings`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching bookings:', error);
+        throw error;
+    }
+};

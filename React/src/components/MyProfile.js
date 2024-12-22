@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Form, Button, Card, Image } from "react-bootstrap";
 import { getUserById, updateUserById } from '../services/api';
+import profile from '../Images/profile.png'
 
 const MyProfile = () => {
     const [isEditing, setIsEditing] = useState(false);
@@ -61,7 +62,8 @@ const MyProfile = () => {
                         <Card.Body>
                             <div className="text-center mb-4">
                                 <Image
-                                    src={profile.image || '../Images/profile.png'}
+
+                                    src={profile.image || profile}
                                     roundedCircle
                                     style={{ width: "150px", height: "150px", objectFit: "cover" }}
                                     className="border"
@@ -72,7 +74,7 @@ const MyProfile = () => {
                                         <Form.Control
                                             type="text"
                                             value={tempProfile.image || ''}
-                                            onChange={(e) => handleInputChange("profilePicture", e.target.value)}
+                                            onChange={(e) => handleInputChange("image", e.target.value)}
                                         />
                                     </Form.Group>
                                 )}

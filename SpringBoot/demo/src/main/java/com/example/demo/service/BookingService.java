@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import com.example.demo.entity.Booking;
+import com.example.demo.entity.Car;
 import com.example.demo.repository.BookingRepository;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.Firestore;
@@ -7,6 +9,7 @@ import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -32,4 +35,10 @@ public class BookingService {
           return "failed: " + e.getMessage();
       }
     }
+
+    public List<Booking> getAllBookings() throws ExecutionException, InterruptedException {
+        return bookingRepository.getAllBookings();
+    }
+
+    
 }

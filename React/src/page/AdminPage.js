@@ -3,12 +3,13 @@ import { Button, Table, Navbar, Nav, Alert, Form, Modal } from "react-bootstrap"
 import { Trash, Pencil } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { FaWindowClose, FaBars, FaPlus, FaMale, FaCar, FaPersonBooth, FaSignOutAlt } from "react-icons/fa";
+import { FaWindowClose, FaBars, FaPlus, FaMale, FaCar, FaPersonBooth, FaSignOutAlt, FaAddressBook, FaBookOpen } from "react-icons/fa";
 import { fetchCars, addVehicle, deleteCar, logoutUser, updateCarById } from '../services/api';
 import ManageDrivers from "../components/ManageDrivers";
 import MyProfile from "../components/MyProfile";
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase';
+import BookingDetails from '../components/BookinDetails';
 
 const AdminPage = () => {
     const [vehicles, setVehicles] = useState([
@@ -19,7 +20,7 @@ const AdminPage = () => {
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarSeverity, setSnackbarSeverity] = useState("success");
     const [openSidebar, setOpenSidebar] = useState(false); // Sidebar state
-    const [activePage, setActivePage] = useState("myProfile"); // Track active page
+    const [activePage, setActivePage] = useState("myBookings"); // Track active page
     const [showModal, setShowModal] = useState(false); // State to manage modal visibility
     const [image, setImage] = useState(null);
     const { register, handleSubmit, reset } = useForm();
@@ -209,6 +210,8 @@ const AdminPage = () => {
 
                 case "myProfile":
                     return <MyProfile />;
+                case "myBookings":
+                    return <BookingDetails />;
                 default:
                     return <h2 className="text-white">Select a page from the sidebar</h2>;
             }
@@ -259,6 +262,9 @@ const AdminPage = () => {
                             </>
                         ) : (
                             <>
+                                <Nav.Link onClick={() => setActivePage("myBookings")} className="text-white">
+                                    <FaBookOpen className="me-3" /> My Bookings
+                                </Nav.Link>
                                 <Nav.Link onClick={() => setActivePage("myProfile")} className="text-white">
                                     <FaMale className="me-3" /> My Profile
                                 </Nav.Link>
