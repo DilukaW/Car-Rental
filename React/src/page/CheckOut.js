@@ -1,9 +1,24 @@
 // src/components/PaymentGateway.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { updatePayment } from '../services/api';
 
 const PaymentGateway = () => {
+
+    const location = useLocation();
+
+    // Parse the query string to get the 'price' value
+    const queryParams = new URLSearchParams(location.search);
+    const price = queryParams.get('price');
+    const bookingId = queryParams.get('bookingId');
+
+    useEffect(() => {
+        console.log('Car ID:', bookingId);
+        console.log('Price:', price);
+    }, [bookingId, price]);
+
     const [paymentDetails, setPaymentDetails] = useState({
         cardNumber: '',
         cardHolderName: '',
@@ -16,10 +31,21 @@ const PaymentGateway = () => {
         setPaymentDetails({ ...paymentDetails, [name]: value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
+        try {
+            const response = await updatePayment(bookingId, price);
+            if (response) {
+                alert('Payment submitted successfully!');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+
+
         // Add payment processing logic here
-        alert('Payment submitted successfully!');
+
     };
 
     return (

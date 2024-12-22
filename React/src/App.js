@@ -28,7 +28,7 @@ const App = () => {
         <Route path="/" element={<CarRentalHome />} />
         <Route path="/car-details/:carId" element={<CarDetails />} />
         <Route path="/book-now/:carId" element={<BookingConfirmation />} />
-        <Route path="/checkout/:carName" element={<PaymentGateway />} />
+        <Route path="/checkout" element={<PaymentGateway />} />
 
       </Routes>
       <Footer />

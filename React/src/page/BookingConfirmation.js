@@ -61,8 +61,10 @@ const BookingConfirmation = () => {
         }
     };
 
-    const handleBooking = (car) => {
-        navigate(`/checkout/${car.name}`);
+    const handleBooking = () => {
+        const bookingId = carId;
+        const price = formData.rentalType == "Day" ? formData.price : (formData.price / 24).toFixed(2)
+        navigate(`/checkout?bookingId=${bookingId}&price=${price}`);
     };
 
     return (

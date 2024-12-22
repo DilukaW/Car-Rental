@@ -49,9 +49,6 @@ const App = () => {
         return <p>Car details not found. Please navigate from the home page.</p>;
     }
 
-    const handleBooking = (car) => {
-        navigate(`/book-now/${car.name}`);
-    };
 
     const handleEnquiry = (e) => {
         e.preventDefault(); // Prevent form submission

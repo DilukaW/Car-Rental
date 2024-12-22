@@ -4,6 +4,7 @@ import com.example.demo.entity.Booking;
 import com.example.demo.entity.Car;
 import com.example.demo.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,6 +53,18 @@ public class BookingController {
     @GetMapping
     public List<Booking> getAllBookings() throws ExecutionException, InterruptedException {
         return bookingService.getAllBookings();
+    }
+
+    @CrossOrigin
+    @PutMapping("/{bookingId}")
+    public ResponseEntity<?> updatePayment(
+            @PathVariable String bookingId,
+            @RequestBody String payment) throws ExecutionException, InterruptedException {
+
+       bookingService.updatePayment(bookingId,payment.toString());
+
+        return ResponseEntity.ok(200);
+
     }
 
 }

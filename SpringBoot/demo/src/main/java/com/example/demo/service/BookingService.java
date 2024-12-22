@@ -40,5 +40,7 @@ public class BookingService {
         return bookingRepository.getAllBookings();
     }
 
-    
+    public void updatePayment(String bookingId, String payment)throws ExecutionException, InterruptedException {
+        bookingRepository.updatePayment(bookingId,payment);
+    }
 }

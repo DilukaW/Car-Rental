@@ -237,3 +237,18 @@ export const fetchBookings = async () => {
         throw error;
     }
 };
+
+// Function to update car details with the backend
+export const updatePayment = async (bookingId, payment) => {
+    try {
+        const response = await axios.put(`http://localhost:8081/api/bookings/${bookingId}`, payment, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error updating driver:', error);
+        throw error;
+    }
+};
