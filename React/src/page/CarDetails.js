@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import 'react-calendar/dist/Calendar.css';
 import { useNavigate } from "react-router-dom";
 import 'react-time-picker/dist/TimePicker.css';
@@ -7,13 +7,15 @@ import { FaCar, FaUsers, FaSnowflake, FaDoorOpen, FaFeather } from "react-icons/
 
 import "../style/carCard.css";
 import { useLocation, useParams } from "react-router-dom";
+import { getCarById } from "../services/api";
 
 
 const App = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const { car } = location.state || {}; // Access the passed state
+    // const { car } = location.state || {}; // Access the passed state
     const { carId } = useParams(); // Fallback for dynamic ID usage
+
 
 
     const [rentalType, setRentalType] = useState("Day");
@@ -23,31 +25,62 @@ const App = () => {
     const [pickupTime, setPickupTime] = useState("");
     const [dropoffDate, setDropoffDate] = useState("");
     const [dropoffTime, setDropoffTime] = useState("");
+    const [price, setPrice] = useState("20");
 
     const [depositOption, setDepositOption] = useState("Pay Deposit");
+    const [car, setCar] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const carData = await getCarById(carId);
+                setCar(carData);
+                console.log(carData)
+                setPrice(carData.price)
+            } catch (error) {
+                console.error('Error fetching car data:', error);
+            }
+        };
+        fetchData();
+
+    }, [carId]);
 
     if (!car) {
         return <p>Car details not found. Please navigate from the home page.</p>;
     }
 
-
-
-
-
-
     const handleBooking = (car) => {
         navigate(`/book-now/${car.name}`);
     };
 
-    const handleEnquiry = () => {
+    const handleEnquiry = (e) => {
+        e.preventDefault(); // Prevent form submission
         alert("Enquiry Submitted!");
-
     };
 
+    const handleSubmit = (e) => {
+
+        e.preventDefault(); // Prevent default form submission
+        const formData = {
+            rentalType,
+            pickupLocation,
+            dropoffLocation,
+            pickupDate,
+            pickupTime,
+            dropoffDate,
+            dropoffTime,
+            depositOption,
+            price
+        };
+
+        console.log("Form Data Submitted:", formData);
+        const queryString = new URLSearchParams(formData).toString();
+        navigate(`/book-now/${carId}?${queryString}`);
+    };
     return (
         <div className="homepage text-white" style={{ backgroundColor: "#0F0F24", minHeight: "100vh" }}>
             <div style={styles.container} className="">
-                <div className="container p-5 " style={styles.leftSection}>
+                <div className="container px-5 " style={styles.leftSection}>
 
                     <div className="row " style={{ height: "auto" }}>
                         <div className="col-md-6">
@@ -135,138 +168,156 @@ const App = () => {
                 <div className="bg-dark text-white" style={styles.rightSection}>
                     <h3 style={styles.heading}>Booking Form</h3>
                     <div style={styles.divider} />
-
-                    {/* Rental Type */}
-                    <div style={styles.section}>
-                        <p>Rental Type</p>
-                        <label>
-                            <input
-                                className="me-2"
-                                type="radio"
-                                value="Day"
-                                checked={rentalType === "Day"}
-                                onChange={(e) => setRentalType(e.target.value)}
-                            />
-                            Day
-                        </label>
-                        <label style={{ marginLeft: "10px" }}>
-                            <input
-                                className="me-2"
-                                type="radio"
-                                value="Hour"
-                                checked={rentalType === "Hour"}
-                                onChange={(e) => setRentalType(e.target.value)}
-                            />
-                            Hour
-                        </label>
-                    </div>
-
-                    {/* Pickup Location */}
-                    <div style={styles.section}>
-                        <p>Pickup Location</p>
-                        <select
-                            style={styles.input}
-                            value={pickupLocation}
-                            onChange={(e) => setPickupLocation(e.target.value)}
-                        >
-                            <option value="">Select Location</option>
-                            <option value="Location 1">Location 1</option>
-                            <option value="Location 2">Location 2</option>
-                        </select>
-                    </div>
-
-                    {/* Dropoff Location */}
-                    <div style={styles.section}>
-                        <p>Dropoff Location</p>
-                        <select
-                            style={styles.input}
-                            value={dropoffLocation}
-                            onChange={(e) => setDropoffLocation(e.target.value)}
-                        >
-                            <option value="">Select Location</option>
-                            <option value="Location 1">Location 1</option>
-                            <option value="Location 2">Location 2</option>
-                        </select>
-                    </div>
-
-                    {/* Pickup Date & Time */}
-                    <div style={styles.section}>
-                        <p>Pickup Date</p>
-                        <div style={styles.dateTimeRow}>
-                            <input
-                                type="date"
-                                style={styles.input}
-                                value={pickupDate}
-                                onChange={(e) => setPickupDate(e.target.value)}
-                            />
-                            <input
-                                type="time"
-                                style={styles.input}
-                                value={pickupTime}
-                                onChange={(e) => setPickupTime(e.target.value)}
-                            />
+                    <form onSubmit={handleSubmit}>
+                        {/* Rental Type */}
+                        <div style={styles.section}>
+                            <p>Rental Type</p>
+                            <label>
+                                <input
+                                    required
+                                    name="rentalType"
+                                    className="me-2"
+                                    type="radio"
+                                    value="Day"
+                                    checked={rentalType === "Day"}
+                                    onChange={(e) => setRentalType(e.target.value)}
+                                />
+                                Day
+                            </label>
+                            <label style={{ marginLeft: "10px" }}>
+                                <input
+                                    required
+                                    name="rentalType"
+                                    className="me-2"
+                                    type="radio"
+                                    value="Hour"
+                                    checked={rentalType === "Hour"}
+                                    onChange={(e) => setRentalType(e.target.value)}
+                                />
+                                Hour
+                            </label>
                         </div>
-                    </div>
 
-                    {/* Drop-off Date & Time */}
-                    <div style={styles.section}>
-                        <p>Drop-off Date</p>
-                        <div style={styles.dateTimeRow}>
-                            <input
-                                type="date"
-                                style={styles.input}
-                                value={dropoffDate}
-                                onChange={(e) => setDropoffDate(e.target.value)}
-                            />
-                            <input
-                                type="time"
-                                style={styles.input}
-                                value={dropoffTime}
-                                onChange={(e) => setDropoffTime(e.target.value)}
-                            />
+                        {/* Pickup Location */}
+                        <div style={styles.section}>
+                            <p>Pickup Location</p>
+                            <select
+                                required
+                                className="form-select"
+                                value={pickupLocation}
+                                onChange={(e) => setPickupLocation(e.target.value)}
+                            >
+                                <option value="">Select Location</option>
+                                <option value="Sri Jayewardenepura Kotte">Sri Jayewardenepura Kotte</option>
+                                <option value="Colombo">Colombo</option>
+                                <option value="Kandy">Kandy</option>
+                                <option value="Colombo 07">Colombo 07</option>
+                            </select>
                         </div>
-                    </div>
+
+                        {/* Dropoff Location */}
+                        <div style={styles.section}>
+                            <p>Dropoff Location</p>
+                            <select
+                                required
+                                className="form-select"
+                                value={dropoffLocation}
+                                onChange={(e) => setDropoffLocation(e.target.value)}
+                            >
+                                <option value="">Select Location</option>
+                                <option value="Colombo 07">Colombo 07</option>
+                                <option value="Homagama">Homagama</option>
+                                <option value="Colombo 03">Colombo 03</option>
+                                <option value="Colombo 06">Colombo 06</option>
+                            </select>
+                        </div>
+
+                        {/* Pickup Date & Time */}
+                        <div style={styles.section}>
+                            <p>Pickup Date</p>
+                            <div style={styles.dateTimeRow}>
+                                <input
+                                    required
+                                    type="date"
+                                    style={styles.input}
+                                    value={pickupDate}
+                                    onChange={(e) => setPickupDate(e.target.value)}
+                                />
+                                <input
+                                    required
+                                    type="time"
+                                    style={styles.input}
+                                    value={pickupTime}
+                                    onChange={(e) => setPickupTime(e.target.value)}
+                                />
+                            </div>
+                        </div>
+
+                        {/* Drop-off Date & Time */}
+                        <div style={styles.section}>
+                            <p>Drop-off Date</p>
+                            <div style={styles.dateTimeRow}>
+                                <input
+                                    required
+                                    type="date"
+                                    style={styles.input}
+                                    value={dropoffDate}
+                                    onChange={(e) => setDropoffDate(e.target.value)}
+                                />
+                                <input
+                                    required
+                                    type="time"
+                                    style={styles.input}
+                                    value={dropoffTime}
+                                    onChange={(e) => setDropoffTime(e.target.value)}
+                                />
 
 
+                            </div>
+                        </div>
 
-                    {/* Deposit Option */}
-                    <div style={styles.section}>
-                        <p>Deposit Option</p>
-                        <label>
-                            <input
-                                className="me-2"
-                                type="radio"
-                                value="Pay Deposit"
-                                checked={depositOption === "Pay Deposit"}
-                                onChange={(e) => setDepositOption(e.target.value)}
-                            />
-                            Pay Deposit
-                        </label>
-                        <label style={{ marginLeft: "10px" }}>
-                            <input
-                                type="radio"
-                                className="me-2"
-                                value="Full Amount"
-                                checked={depositOption === "Full Amount"}
-                                onChange={(e) => setDepositOption(e.target.value)}
-                            />
-                            Full Amount
-                        </label>
-                    </div>
+                        {/* Deposit Option */}
+                        <div style={styles.section}>
+                            <p>Deposit Option</p>
+                            <label>
+                                <input
+                                    required
+                                    className="me-2"
+                                    type="radio"
+                                    value="Pay Deposit"
+                                    checked={depositOption === "Pay Deposit"}
+                                    onChange={(e) => setDepositOption(e.target.value)}
+                                />
+                                Pay Deposit
+                            </label>
+                            <label style={{ marginLeft: "10px" }}>
+                                <input
+                                    required
+                                    type="radio"
+                                    className="me-2"
+                                    value="Full Amount"
+                                    checked={depositOption === "Full Amount"}
+                                    onChange={(e) => setDepositOption(e.target.value)}
+                                />
+                                Full Amount
+                            </label>
+                        </div>
 
-                    {/* Buttons */}
-                    <div style={styles.buttonRow}>
-                        <button style={styles.bookingButton} onClick={handleBooking}>
-                            Booking
-                        </button>
-                        <button style={styles.enquiryButton} onClick={handleEnquiry}>
-                            Enquiry Us
-                        </button>
-                    </div>
+                        {/* Buttons */}
+                        <div style={styles.buttonRow}>
+                            <button type="submit" style={styles.bookingButton}>
+                                Booking
+                            </button>
+                            <button type="button" style={styles.enquiryButton} onClick={handleEnquiry}>
+                                Enquiry Us
+                            </button>
+                        </div>
+                    </form>
                 </div>
+
             </div>
 
-        </div>
+        </div >
 
     );
 };

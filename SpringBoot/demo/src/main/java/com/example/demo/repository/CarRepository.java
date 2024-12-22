@@ -90,4 +90,23 @@ public class CarRepository {
             throw new RuntimeException("Failed to update the user.");
         }
     }
+
+    public Car getCarById(String carId) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        DocumentReference carRef = db.collection("Cars").document(carId);
+
+        ApiFuture<com.google.cloud.firestore.DocumentSnapshot> future = carRef.get();
+        com.google.cloud.firestore.DocumentSnapshot document = future.get();
+
+        if (document.exists()) {
+            Car car = document.toObject(Car.class);
+            if (car != null) {
+                car.setId(document.getId());
+            }
+            return car;
+        } else {
+            return null;
+        }
+    }
+
 }

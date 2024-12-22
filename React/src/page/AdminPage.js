@@ -19,12 +19,13 @@ const AdminPage = () => {
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarSeverity, setSnackbarSeverity] = useState("success");
     const [openSidebar, setOpenSidebar] = useState(false); // Sidebar state
-    const [activePage, setActivePage] = useState("manageVehicles"); // Track active page
+    const [activePage, setActivePage] = useState("myProfile"); // Track active page
     const [showModal, setShowModal] = useState(false); // State to manage modal visibility
     const [image, setImage] = useState(null);
     const { register, handleSubmit, reset } = useForm();
     const navigate = useNavigate();
-    const [cars, setCars] = useState([]); // State to hold car data
+    const [cars, setCars] = useState([]);
+    const [isAdmin, setAdmin] = useState(false); // State to hold car data
 
     useEffect(() => {
         const fetchData = async () => {
@@ -32,6 +33,12 @@ const AdminPage = () => {
                 const carData = await fetchCars();
                 setCars(carData);
                 console.log(carData)
+
+                const id = localStorage.getItem("userId");
+                if (id == "pD9uV8r73HdFSIUGaRzOCwWkLC72") {
+                    setAdmin(true)
+                    setActivePage("manageVehicles")
+                }
             } catch (error) {
                 console.error('Error fetching car data:', error);
             }
@@ -114,7 +121,8 @@ const AdminPage = () => {
             await signOut(auth); // Ensure `auth` is imported from your Firebase configuration
             showSnackbar("Logged out successfully", "success"); // Optional: Provide feedback
             localStorage.clear()
-            window.location.href = "/" // Redirect to login page after logout
+            window.location.href = "/"
+            setAdmin(false)// Redirect to login page after logout
         } catch (error) {
             console.error("Error in logging out:", error);
             showSnackbar("Failed to logout. Please try again.", "error");
@@ -136,64 +144,74 @@ const AdminPage = () => {
     const toggleSidebar = () => setOpenSidebar(!openSidebar);
 
     const renderContent = () => {
-        switch (activePage) {
-            case "manageVehicles":
-                return (
-                    <>
-                        <Button
-                            variant="primary"
-                            className="my-4"
-                            onClick={() => openAddEditForm()}
-                        >
-                            <FaPlus /> Add Vehicle
-                        </Button>
-                        <Table striped bordered hover className="table table-dark">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Type</th>
-                                    <th>Features</th>
-                                    <th>Fuel</th>
-                                    <th>Seats</th>
-                                    <th>Price</th>
-                                    <th>Availability</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {cars.map((vehicle, index) => (
-                                    <tr key={vehicle.id}>
-                                        <td>{index + 1}</td>
-                                        <td>{vehicle.name}</td>
-                                        <td>{vehicle.type}</td>
-                                        <td>{vehicle.features}</td>
-                                        <td>{vehicle.fuel}</td>
-                                        <td>{vehicle.seats}</td>
-                                        <td>{vehicle.price}</td>
-                                        <td>Available</td>
-                                        <td>
-                                            <Button variant="warning" onClick={() => openAddEditForm(vehicle)}>
-                                                <Pencil />
-                                            </Button>
-                                            <Button variant="danger" onClick={() => handleDelete(vehicle.id)} style={{ marginLeft: "10px" }}>
-                                                <Trash />
-                                            </Button>
-                                        </td>
+        if (isAdmin) {
+            switch (activePage) {
+                case "manageVehicles":
+                    return (
+                        <>
+                            <Button
+                                variant="primary"
+                                className="my-4"
+                                onClick={() => openAddEditForm()}
+                            >
+                                <FaPlus /> Add Vehicle
+                            </Button>
+                            <Table striped bordered hover className="table table-dark">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Features</th>
+                                        <th>Fuel</th>
+                                        <th>Seats</th>
+                                        <th>Price</th>
+                                        <th>Availability</th>
+                                        <th>Actions</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </Table>
-                    </>
-                );
-            case "manageDrivers":
-                return <ManageDrivers />;
-            case "myProfile":
-                return <MyProfile />;
-            case "logout":
-                return <></>
-            default:
-                return <h2 className="text-white">Select a page from the sidebar</h2>;
+                                </thead>
+                                <tbody>
+                                    {cars.map((vehicle, index) => (
+                                        <tr key={vehicle.id}>
+                                            <td>{index + 1}</td>
+                                            <td>{vehicle.name}</td>
+                                            <td>{vehicle.type}</td>
+                                            <td>{vehicle.features}</td>
+                                            <td>{vehicle.fuel}</td>
+                                            <td>{vehicle.seats}</td>
+                                            <td>{vehicle.price}</td>
+                                            <td>Available</td>
+                                            <td>
+                                                <Button variant="warning" onClick={() => openAddEditForm(vehicle)}>
+                                                    <Pencil />
+                                                </Button>
+                                                <Button variant="danger" onClick={() => handleDelete(vehicle.id)} style={{ marginLeft: "10px" }}>
+                                                    <Trash />
+                                                </Button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </Table>
+                        </>
+                    );
+                case "manageDrivers":
+                    return <ManageDrivers />;
+                case "myProfile":
+                    return <MyProfile />;
+                case "logout":
+                    return <></>
+                default:
+                    return <h2 className="text-white">Select a page from the sidebar</h2>;
+            }
+        } else {
+            switch (activePage) {
+
+                case "myProfile":
+                    return <MyProfile />;
+                default:
+                    return <h2 className="text-white">Select a page from the sidebar</h2>;
+            }
         }
     };
 
@@ -224,18 +242,31 @@ const AdminPage = () => {
                         <FaWindowClose />
                     </Button>
                     <Nav className="flex-column" style={{ paddingLeft: "10px" }}>
-                        <Nav.Link onClick={() => setActivePage("manageVehicles")} className="text-white">
-                            <FaCar className="me-3" /> Manage Vehicles
-                        </Nav.Link>
-                        <Nav.Link onClick={() => setActivePage("manageDrivers")} className="text-white">
-                            <FaPersonBooth className="me-3" /> Manage Drivers
-                        </Nav.Link>
-                        <Nav.Link onClick={() => setActivePage("myProfile")} className="text-white">
-                            <FaMale className="me-3" /> My Profile
-                        </Nav.Link>
-                        <Nav.Link onClick={logout} className="text-white">
-                            <FaSignOutAlt className="me-3" /> Logout
-                        </Nav.Link>
+                        {isAdmin ? (
+                            <>
+                                <Nav.Link onClick={() => setActivePage("manageVehicles")} className="text-white">
+                                    <FaCar className="me-3" /> Manage Vehicles
+                                </Nav.Link>
+                                <Nav.Link onClick={() => setActivePage("manageDrivers")} className="text-white">
+                                    <FaPersonBooth className="me-3" /> Manage Drivers
+                                </Nav.Link>
+                                <Nav.Link onClick={() => setActivePage("myProfile")} className="text-white">
+                                    <FaMale className="me-3" /> My Profile
+                                </Nav.Link>
+                                <Nav.Link onClick={logout} className="text-white">
+                                    <FaSignOutAlt className="me-3" /> Logout
+                                </Nav.Link>
+                            </>
+                        ) : (
+                            <>
+                                <Nav.Link onClick={() => setActivePage("myProfile")} className="text-white">
+                                    <FaMale className="me-3" /> My Profile
+                                </Nav.Link>
+                                <Nav.Link onClick={logout} className="text-white">
+                                    <FaSignOutAlt className="me-3" /> Logout
+                                </Nav.Link>
+                            </>
+                        )}
                     </Nav>
                 </div>
 

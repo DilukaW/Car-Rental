@@ -52,4 +52,8 @@ public class CarService {
         return carRepository.updateVehicle(carId,updatedCar);
     }
 
+    public Car getCarById(String carId) throws ExecutionException, InterruptedException {
+        return carRepository.getCarById(carId);
+    }
+
 }

@@ -36,7 +36,7 @@ const CarCard = ({ car }) => {
                     </div>
                 </div>
                 <div className="card-footer d-flex justify-content-center">
-                    <Link to={`/car-details/${car.id}`} state={{ car }} className="btn btn-outline-light btn-sm">Rent Now</Link>
+                    <Link to={`/car-details/${car.id}`} className="btn btn-outline-light btn-sm">Rent Now</Link>
 
                 </div>
             </div>

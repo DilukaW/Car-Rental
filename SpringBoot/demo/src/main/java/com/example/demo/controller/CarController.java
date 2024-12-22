@@ -77,4 +77,10 @@ public class CarController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
+
+    @CrossOrigin
+    @GetMapping("/{carId}")
+    public Car getCarById(@PathVariable String carId) throws ExecutionException, InterruptedException {
+        return carService.getCarById(carId);
+    }
 }

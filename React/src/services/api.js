@@ -32,6 +32,17 @@ export const addVehicle = async (name, type, fuel, price, features, seats) => {
     }
 };
 
+// Function to get a user by id
+export const getCarById = async (carId) => {
+    try {
+        const response = await axios.get(`http://localhost:8081/api/cars/${carId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching cars:', error);
+        throw error;
+    }
+};
+
 // Function to update car details with the backend
 export const updateCarById = async (carId, updatedCar) => {
     try {
@@ -180,3 +191,39 @@ export const logoutUser = async () => {
     }
 };
 
+
+
+// Function to a new booking with the backend
+export const addBooking = async (
+    id,
+    userId,
+    rentalType,
+    pickupLocation,
+    dropoffLocation,
+    pickupDate,
+    pickupTime,
+    dropoffDate,
+    dropoffTime,
+    depositOption,
+    price) => {
+    try {
+        const response = await axios.post(`http://localhost:8081/api/bookings/add`, {
+
+            id: id,
+            userId: userId,
+            rentalType: rentalType,
+            pickupLocation: pickupLocation,
+            dropoffLocation: dropoffLocation,
+            pickupDate: pickupDate,
+            pickupTime: pickupTime,
+            dropoffDate: dropoffDate,
+            dropoffTime: dropoffTime,
+            depositOption: depositOption,
+            price: price
+
+        });
+        return response;
+    } catch (error) {
+        throw new Error(error.response?.data?.message || error.message);
+    }
+};

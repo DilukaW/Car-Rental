@@ -5,7 +5,7 @@ import CarRentalHome from './page/CarRentalHome';
 import CarDetails from './page/CarDetails';
 import Navbar from './components/Navbar';
 import BookingConfirmation from './page/BookingConfirmation';
-import PaymentGateway from './components/CheckOut';
+import PaymentGateway from './page/CheckOut';
 import AdminPage from './page/AdminPage';
 import Login from './page/Login';
 import Footer from './components/Footer';
@@ -27,7 +27,7 @@ const App = () => {
 
         <Route path="/" element={<CarRentalHome />} />
         <Route path="/car-details/:carId" element={<CarDetails />} />
-        <Route path="/book-now/:carName" element={<BookingConfirmation />} />
+        <Route path="/book-now/:carId" element={<BookingConfirmation />} />
         <Route path="/checkout/:carName" element={<PaymentGateway />} />
 
       </Routes>
