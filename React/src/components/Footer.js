@@ -22,7 +22,7 @@ const Footer = () => {
                             <li><a href="/" className="text-light text-decoration-none">Home</a></li>
                             <li><a href="/login" className="text-light text-decoration-none">Login</a></li>
                             <li><a href="/register" className="text-light text-decoration-none">Register</a></li>
-                            <li><a href="#cars" className="text-light text-decoration-none">Available Cars</a></li>
+                            <li><a href="/rent" className="text-light text-decoration-none">Available Cars</a></li>
                         </ul>
                     </div>
 
@@ -30,9 +30,9 @@ const Footer = () => {
                     <div className="col-md-4 mb-4">
                         <h5>Contact Us</h5>
                         <ul className="list-unstyled">
-                            <li><i className="bi bi-geo-alt-fill"></i> 123 Car Street, Auto City</li>
-                            <li><i className="bi bi-envelope-fill"></i> support@carrentalpro.com</li>
-                            <li><i className="bi bi-phone-fill"></i> +1-234-567-890</li>
+                            <li><i className="bi bi-geo-alt-fill"></i>   123 Car Street, Colombo, Sri Lanka</li>
+                            <li><i className="bi bi-envelope-fill"></i> support@CaPro.com</li>
+                            <li><i className="bi bi-phone-fill"></i> +94-234-5674</li>
                         </ul>
                         {/* Social Media Links */}
                         <div className="mt-3">

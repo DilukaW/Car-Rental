@@ -1,14 +1,9 @@
-import Navbar from "../components/Navbar";
-import HeroBanner from "../components/HeroBanner";
-import LogosSection from "../components/LogoSection";
-import CarCard from "../components/CarCard";
 import React, { useState, useEffect } from 'react';
-import HowItWorks from "../components/HowItWorks";
-import Footer from "../components/Footer";
-import { fetchCars, fetchBookings } from "../services/api";
+import { fetchBookings, fetchCars } from "../services/api";
 import CarCards from "../components/CarCard";
 
-const CarRentalHome = () => {
+const RentPage = () => {
+
     const [cars, setCars] = useState([]);
     const [bookings, setBookings] = useState([]);
     const [filteredCars, setFilteredCars] = useState([]);
@@ -37,19 +32,17 @@ const CarRentalHome = () => {
         fetchData();
     }, []);
 
-
     return (<div className="homepage text-white" style={{ backgroundColor: "#0F0F24", minHeight: "100vh" }}>
 
 
-        <HeroBanner />
-        <LogosSection />
 
         <CarCards cars={filteredCars} />
 
-        <HowItWorks />
+
 
     </div>
     );
-};
 
-export default CarRentalHome;
+}
+
+export default RentPage;

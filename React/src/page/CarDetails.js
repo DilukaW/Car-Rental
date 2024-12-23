@@ -56,23 +56,29 @@ const App = () => {
     };
 
     const handleSubmit = (e) => {
-
         e.preventDefault(); // Prevent default form submission
-        const formData = {
-            rentalType,
-            pickupLocation,
-            dropoffLocation,
-            pickupDate,
-            pickupTime,
-            dropoffDate,
-            dropoffTime,
-            depositOption,
-            price
-        };
+        if (localStorage.getItem("userId") != null) {
 
-        console.log("Form Data Submitted:", formData);
-        const queryString = new URLSearchParams(formData).toString();
-        navigate(`/book-now/${carId}?${queryString}`);
+            const formData = {
+                rentalType,
+                pickupLocation,
+                dropoffLocation,
+                pickupDate,
+                pickupTime,
+                dropoffDate,
+                dropoffTime,
+                depositOption,
+                price
+            };
+
+            console.log("Form Data Submitted:", formData);
+            const queryString = new URLSearchParams(formData).toString();
+            navigate(`/book-now/${carId}?${queryString}`);
+        } else {
+            navigate('/login')
+        }
+
+
     };
     return (
         <div className="homepage text-white" style={{ backgroundColor: "#0F0F24", minHeight: "100vh" }}>

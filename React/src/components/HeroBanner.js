@@ -1,6 +1,13 @@
 import logo from "../Images/hero.png"
 
 const HeroBanner = () => {
+
+    const rent = () => {
+        window.location.href = "/rent"
+    }
+    const learn = () => {
+        window.location.href = "/about"
+    }
     return (
         <header className="hero-section py-5">
             <div className="container">
@@ -10,8 +17,8 @@ const HeroBanner = () => {
                         <h1 className="display-4 fw-bold">WE RENT THE HIGHEST CALIBER AUTOMOBILES</h1>
                         <p className="lead">Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt qui esse pariatur duis deserunt mollit dolore cillum minim tempor enim.</p>
                         <div className="d-flex justify-content-center justify-content-lg-start mt-4">
-                            <button className="btn btn-primary me-3">Rent Now</button>
-                            <button className="btn btn-secondary">Learn More</button>
+                            <button className="btn btn-primary me-3" onClick={rent}>Rent Now</button>
+                            <button className="btn btn-secondary" onClick={learn}>Learn More</button>
                         </div>
                     </div>
 

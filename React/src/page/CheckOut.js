@@ -8,6 +8,7 @@ import { updatePayment } from '../services/api';
 const PaymentGateway = () => {
 
     const location = useLocation();
+    const navigate = useNavigate(); // Get car name from URL
 
     // Parse the query string to get the 'price' value
     const queryParams = new URLSearchParams(location.search);
@@ -38,6 +39,8 @@ const PaymentGateway = () => {
             const response = await updatePayment(bookingId, price);
             if (response) {
                 alert('Payment submitted successfully!');
+                // Redirect to a success page or update the UI accordingly
+                navigate('/');
             }
         } catch (error) {
             console.error('Error:', error);

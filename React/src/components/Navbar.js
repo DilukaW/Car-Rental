@@ -43,19 +43,14 @@ const Navbar = () => {
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav ms-auto">
                             <li className="nav-item">
-                                <a className="nav-link" href="#">Rent</a>
+                                <a className="nav-link" to='/rent' href="/rent">Rent</a>
+                            </li>
+
+                            <li className="nav-item">
+                                <a className="nav-link" href="/about">About us</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">Share</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">Ride</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">Service</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">Contact</a>
+                                <a className="nav-link" to="/contact" href='/contact'>Contact</a>
                             </li>
                             {isLoggedIn ? (
                                 <li className="nav-item d-flex align-items-center">

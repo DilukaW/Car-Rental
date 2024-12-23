@@ -10,6 +10,9 @@ import AdminPage from './page/AdminPage';
 import Login from './page/Login';
 import Footer from './components/Footer';
 import Register from './page/Register';
+import RentPage from './page/RentPage';
+import Contact from './page/ContactPage';
+import About from './page/AboutPage';
 
 const App = () => {
   return (
@@ -29,6 +32,9 @@ const App = () => {
         <Route path="/car-details/:carId" element={<CarDetails />} />
         <Route path="/book-now/:carId" element={<BookingConfirmation />} />
         <Route path="/checkout" element={<PaymentGateway />} />
+        <Route path="/rent" element={<RentPage />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/about" element={<About />} />
 
       </Routes>
       <Footer />
