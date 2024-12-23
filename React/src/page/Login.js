@@ -4,8 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase';
 import { useEffect, useState } from 'react';
+import { Button, Table, Navbar, Nav, Alert, Form, Modal } from "react-bootstrap";
 
 const Login = () => {
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
     const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -34,7 +38,11 @@ const Login = () => {
         return () => unsubscribe(); // Cleanup subscription on component unmount
     }, []);
 
-
+    const showSnackbar = (message, severity) => {
+        setSnackbarMessage(message);
+        setSnackbarSeverity(severity);
+        setOpenSnackbar(true);
+    };
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
@@ -45,7 +53,7 @@ const Login = () => {
         try {
 
             await signInWithEmailAndPassword(auth, formData.email, formData.password);
-            alert('Login successful!');
+            showSnackbar("Logged in Successfully", "success");
             // const response = await loginWithBackend(formData.email, formData.password);
 
             // if (response.data) {
@@ -65,6 +73,12 @@ const Login = () => {
 
     return (
         <div className="homepage" style={{ backgroundColor: "#0F0F24", minHeight: "100vh" }}>
+            {/* Snackbar */}
+            {openSnackbar && (
+                <Alert variant={snackbarSeverity === "success" ? "success" : "danger"} onClose={() => setOpenSnackbar(false)} dismissible>
+                    {snackbarMessage}
+                </Alert>
+            )}
             <div className="container d-flex justify-content-center">
                 <div className="p-4 rounded shadow-lg bg-white my-5" style={{ maxWidth: '400px', width: '100%' }}>
                     <h2 className="text-center mb-4">Login</h2>

@@ -13,11 +13,12 @@ export const fetchCars = async () => {
 };
 
 // Function to a new car with the backend
-export const addVehicle = async (name, type, fuel, price, features, seats) => {
+export const addVehicle = async (name, image, type, fuel, price, features, seats) => {
     try {
         const response = await axios.post(`http://localhost:8081/api/cars/add`, {
 
             features: features,
+            image: image,
             fuel: fuel,
             name: name,
             price: price,

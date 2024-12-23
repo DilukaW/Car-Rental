@@ -69,7 +69,7 @@ const AdminPage = () => {
                 // Add a new vehicle
 
                 // Call the backend API to add the vehicle
-                const response = await addVehicle(data.name, data.type, data.fuel, data.price, data.features, data.seats);
+                const response = await addVehicle(data.name, data.image, data.type, data.fuel, data.price, data.features, data.seats);
                 if (response?.data) {
                     setVehicles((prev) => [
                         ...prev,
@@ -180,7 +180,7 @@ const AdminPage = () => {
                                             <td>{vehicle.features}</td>
                                             <td>{vehicle.fuel}</td>
                                             <td>{vehicle.seats}</td>
-                                            <td>{vehicle.price}</td>
+                                            <td>$ {vehicle.price}</td>
                                             <td>Available</td>
                                             <td>
                                                 <Button variant="warning" onClick={() => openAddEditForm(vehicle)}>

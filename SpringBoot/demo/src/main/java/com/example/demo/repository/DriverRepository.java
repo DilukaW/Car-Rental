@@ -23,7 +23,7 @@ public class DriverRepository {
         Map<String, Object> driverDetails = new HashMap<>();
 
         driverDetails.put("name", name);
-        driverDetails.put(email, email);
+        driverDetails.put("email", email);
         driverDetails.put("contact", contact);
 
         // Add the document to Firestore

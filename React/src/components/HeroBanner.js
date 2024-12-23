@@ -8,6 +8,11 @@ const HeroBanner = () => {
     const learn = () => {
         window.location.href = "/about"
     }
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault(); // Prevent page reload
+        window.location.href = "/rent"
+    };
     return (
         <header className="hero-section py-5">
             <div className="container">
@@ -34,23 +39,27 @@ const HeroBanner = () => {
 
                 {/* Search Bar */}
                 <div className="search-bar bg-dark text-white p-4 rounded mt-5">
-                    <div className="row">
-                        <div className="col-md-4">
-                            <input type="text" className="form-control" placeholder="Enter your location here" />
+                    <form onSubmit={handleFormSubmit}>
+                        <div className="row">
+
+                            <div className="col-md-4">
+                                <input type="text" required className="form-control" placeholder="Enter your location here" />
+                            </div>
+                            <div className="col-md-3">
+                                <input type="date" required className="form-control" placeholder="Pick-Up Date" />
+                            </div>
+                            <div className="col-md-3">
+                                <input type="date" required className="form-control" placeholder="Return Date" />
+                            </div>
+                            <div className="col-md-2">
+                                <button className="btn btn-primary w-100" type="submit">Search</button>
+                            </div>
+
                         </div>
-                        <div className="col-md-3">
-                            <input type="date" className="form-control" placeholder="Pick-Up Date" />
-                        </div>
-                        <div className="col-md-3">
-                            <input type="date" className="form-control" placeholder="Return Date" />
-                        </div>
-                        <div className="col-md-2">
-                            <button className="btn btn-primary w-100">Search</button>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
-        </header>
+        </header >
     );
 };
 
