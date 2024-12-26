@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  react-app:
+    build:
+      context: ./React/
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    container_name: react-container
+
+  spring-boot-app:
+    build:
+      context: ./SpringBoot/demo
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8081"
+    container_name: spring-container
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/serviceAccountKey.json
+    volumes:
+      - ./SpringBoot/demo/src/main/resources:/app

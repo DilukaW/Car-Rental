@@ -1,1 +1,3 @@
 node_modules
+React/src/firebase.js
+SpringBoot/demo/src/main/resources/serviceAccountKey.json

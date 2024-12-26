@@ -8,25 +8,27 @@ import org.springframework.context.annotation.Configuration;
 import javax.annotation.PostConstruct;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 @Configuration
 public class FirebaseConfig {
 
     @PostConstruct
-    public void init() throws IOException {
-        try {
+    public void init() {
+        try (InputStream serviceAccount = getClass().getResourceAsStream("/serviceAccountKey.json")) {
+            if (serviceAccount == null) {
+                throw new RuntimeException("serviceAccountKey.json not found in resources");
+            }
 
+            FirebaseOptions options = FirebaseOptions.builder()
+                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                    .build();
 
-        FileInputStream serviceAccount =
-                new FileInputStream("/Users/diluka/Development/React/car-rental/SpringBoot/demo/src/main/resources/serviceAccountKey.json");
-
-        FirebaseOptions options = new FirebaseOptions.Builder()
-                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                .build();
-
-        FirebaseApp.initializeApp(options);
-    } catch (IOException e) {
-        throw new RuntimeException("Failed to initialize Firebase", e);
+            FirebaseApp.initializeApp(options);
+            System.out.println("Firebase initialized successfully");
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to initialize Firebase", e);
+        }
     }
-    }
+
 }

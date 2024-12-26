@@ -58,7 +58,7 @@ public class DriverController {
     }
     @CrossOrigin
     @PutMapping("/{driverId}")
-    public ResponseEntity<Driver> updateCar(
+    public ResponseEntity<Driver> updateDriver(
             @PathVariable String driverId,
             @RequestBody Driver updatedDriver) throws ExecutionException, InterruptedException {
 
