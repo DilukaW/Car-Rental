@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Table, Navbar, Nav, Alert, Form, Modal } from "react-bootstrap";
 import { Trash, Pencil } from "react-bootstrap-icons";
-import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { FaWindowClose, FaBars, FaPlus, FaMale, FaCar, FaPersonBooth, FaSignOutAlt, FaAddressBook, FaBookOpen } from "react-icons/fa";
-import { fetchCars, addVehicle, deleteCar, logoutUser, updateCarById } from '../services/api';
+import { FaWindowClose, FaBars, FaPlus, FaMale, FaCar, FaPersonBooth, FaSignOutAlt, FaBookOpen } from "react-icons/fa";
+import { fetchCars, addVehicle, deleteCar, updateCarById, fetchBookings } from '../services/api';
 import ManageDrivers from "../components/ManageDrivers";
 import MyProfile from "../components/MyProfile";
 import { signOut } from 'firebase/auth';
@@ -12,9 +11,7 @@ import { auth } from '../firebase';
 import BookingDetails from '../components/BookinDetails';
 
 const AdminPage = () => {
-    const [vehicles, setVehicles] = useState([
-
-    ]);
+    const [vehicles, setVehicles] = useState([]);
     const [selectedItem, setSelectedItem] = useState(null);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -22,21 +19,25 @@ const AdminPage = () => {
     const [openSidebar, setOpenSidebar] = useState(false); // Sidebar state
     const [activePage, setActivePage] = useState("myBookings"); // Track active page
     const [showModal, setShowModal] = useState(false); // State to manage modal visibility
-    const [image, setImage] = useState(null);
+
     const { register, handleSubmit, reset } = useForm();
-    const navigate = useNavigate();
+
     const [cars, setCars] = useState([]);
-    const [isAdmin, setAdmin] = useState(false); // State to hold car data
+    const [bookings, setBookings] = useState([]);
+    const [isAdmin, setAdmin] = useState(false);
+    // State to hold car data
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const carData = await fetchCars();
                 setCars(carData);
-                console.log(carData)
+                const bookingData = await fetchBookings();
+                setBookings(bookingData)
+                console.log(bookingData)
 
                 const id = localStorage.getItem("userId");
-                if (id == "pD9uV8r73HdFSIUGaRzOCwWkLC72") {
+                if (id === "pD9uV8r73HdFSIUGaRzOCwWkLC72") {
                     setAdmin(true)
                     setActivePage("manageVehicles")
                 }
@@ -181,7 +182,14 @@ const AdminPage = () => {
                                             <td>{vehicle.fuel}</td>
                                             <td>{vehicle.seats}</td>
                                             <td>$ {vehicle.price}</td>
-                                            <td>Available</td>
+                                            <td
+                                                style={{
+                                                    color: bookings.some((booking) => booking.id === vehicle.id) ? "red" : "inherit",
+                                                }}
+                                            >
+                                                {bookings.some((booking) => booking.id === vehicle.id) ? "Booked" : "Available"}
+                                            </td>
+
                                             <td>
                                                 <Button variant="warning" onClick={() => openAddEditForm(vehicle)}>
                                                     <Pencil />
