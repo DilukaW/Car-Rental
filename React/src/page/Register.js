@@ -1,9 +1,7 @@
 // src/components/Register.js
 import React, { useState } from 'react';
 import { registerWithBackend } from '../services/api'// Adjust the path to your API functions file
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase';
-import axios from 'axios';
+
 import { useNavigate } from 'react-router-dom';
 
 const Register = () => {

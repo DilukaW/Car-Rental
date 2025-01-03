@@ -52,9 +52,13 @@ const Contact = () => {
                             </ul>
                             <h4>Follow Us</h4>
                             <div>
+                                {/* eslint-disable-next-line */}
                                 <a href="#" className="text-white me-3 fs-4"><i className="bi bi-facebook"></i></a>
+                                {/* eslint-disable-next-line */}
                                 <a href="#" className="text-white me-3 fs-4"><i className="bi bi-twitter"></i></a>
+                                {/* eslint-disable-next-line */}
                                 <a href="#" className="text-white me-3 fs-4"><i className="bi bi-instagram"></i></a>
+                                {/* eslint-disable-next-line */}
                                 <a href="#" className="text-white fs-4"><i className="bi bi-linkedin"></i></a>
                             </div>
                         </div>

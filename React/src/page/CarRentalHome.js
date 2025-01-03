@@ -1,15 +1,17 @@
-import Navbar from "../components/Navbar";
+
 import HeroBanner from "../components/HeroBanner";
 import LogosSection from "../components/LogoSection";
-import CarCard from "../components/CarCard";
+
 import React, { useState, useEffect } from 'react';
 import HowItWorks from "../components/HowItWorks";
-import Footer from "../components/Footer";
+
 import { fetchCars, fetchBookings } from "../services/api";
 import CarCards from "../components/CarCard";
 
 const CarRentalHome = () => {
+    // eslint-disable-next-line
     const [cars, setCars] = useState([]);
+    // eslint-disable-next-line
     const [bookings, setBookings] = useState([]);
     const [filteredCars, setFilteredCars] = useState([]);
 

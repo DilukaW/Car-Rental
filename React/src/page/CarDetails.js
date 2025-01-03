@@ -12,6 +12,7 @@ import { getCarById } from "../services/api";
 
 const App = () => {
     const navigate = useNavigate();
+    // eslint-disable-next-line
     const location = useLocation();
     // const { car } = location.state || {}; // Access the passed state
     const { carId } = useParams(); // Fallback for dynamic ID usage

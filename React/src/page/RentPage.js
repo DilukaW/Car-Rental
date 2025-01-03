@@ -3,8 +3,9 @@ import { fetchBookings, fetchCars } from "../services/api";
 import CarCards from "../components/CarCard";
 
 const RentPage = () => {
-
+    //eslint-disable-next-line 
     const [cars, setCars] = useState([]);
+    //eslint-disable-next-line 
     const [bookings, setBookings] = useState([]);
     const [filteredCars, setFilteredCars] = useState([]);
 

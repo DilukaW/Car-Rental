@@ -1,17 +1,18 @@
 // src/components/Login.js
-import { loginWithBackend } from '../services/api';
+
 import { useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase';
 import { useEffect, useState } from 'react';
-import { Button, Table, Navbar, Nav, Alert, Form, Modal } from "react-bootstrap";
+import { Alert } from "react-bootstrap";
 
 const Login = () => {
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarSeverity, setSnackbarSeverity] = useState("success");
-
+    //eslint-disable-next-line 
     const navigate = useNavigate();
+    //eslint-disable-next-line 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const [formData, setFormData] = useState({

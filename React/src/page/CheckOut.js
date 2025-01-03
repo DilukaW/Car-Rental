@@ -1,8 +1,6 @@
 // src/components/PaymentGateway.js
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import { useNavigate, useLocation } from "react-router-dom";
 import { updatePayment } from '../services/api';
 
 const PaymentGateway = () => {
