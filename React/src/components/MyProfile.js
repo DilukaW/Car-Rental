@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Form, Button, Card, Image } from "react-bootstrap";
 import { getUserById, updateUserById } from '../services/api';
-import profile from '../Images/profile.png'
+
 
 const MyProfile = () => {
     const [isEditing, setIsEditing] = useState(false);

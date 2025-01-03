@@ -11,6 +11,7 @@ import { auth } from '../firebase';
 import BookingDetails from '../components/BookinDetails';
 
 const AdminPage = () => {
+    // eslint-disable-next-line 
     const [vehicles, setVehicles] = useState([]);
     const [selectedItem, setSelectedItem] = useState(null);
     const [openSnackbar, setOpenSnackbar] = useState(false);

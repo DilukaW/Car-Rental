@@ -5,7 +5,6 @@ import toyota from "../Images/Toyota.png";
 import audi from "../Images/audi.png";
 import bmw from "../Images/bmw.png";
 import benz from "../Images/benz.png";
-import mitsu from "../Images/mistsu.png";
 import honda from "../Images/honda.png";
 import "../style/logo.css"
 

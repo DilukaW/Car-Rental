@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { fetchUsers } from '../services/api';
 import { getUserById } from '../services/api'
 import profile from '../Images/profile.png'
 const Navbar = () => {
