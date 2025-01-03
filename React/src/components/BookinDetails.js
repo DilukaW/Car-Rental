@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button, Table, Navbar, Nav, Alert, Form, Modal } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import { fetchBookings } from '../services/api';
 
 const BookingDetails = () => {
