@@ -13,7 +13,7 @@ import Register from './page/Register';
 import RentPage from './page/RentPage';
 import Contact from './page/ContactPage';
 import About from './page/AboutPage';
-import { Paypal } from 'react-bootstrap-icons';
+
 
 const App = () => {
   return (
