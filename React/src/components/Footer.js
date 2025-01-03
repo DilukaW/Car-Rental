@@ -35,10 +35,15 @@ const Footer = () => {
                             <li><i className="bi bi-phone-fill"></i> +94-234-5674</li>
                         </ul>
                         {/* Social Media Links */}
+
                         <div className="mt-3">
+                            {/* eslint-disable-next-line */}
                             <a href="#" className="text-light me-3"><i className="bi bi-facebook"></i></a>
+                            {/* eslint-disable-next-line */}
                             <a href="#" className="text-light me-3"><i className="bi bi-twitter"></i></a>
+                            {/* eslint-disable-next-line */}
                             <a href="#" className="text-light me-3"><i className="bi bi-instagram"></i></a>
+                            {/* eslint-disable-next-line */}
                             <a href="#" className="text-light"><i className="bi bi-linkedin"></i></a>
                         </div>
                     </div>

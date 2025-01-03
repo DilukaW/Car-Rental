@@ -1,9 +1,7 @@
 // src/components/BookingConfirmation.js
 import React, { useState, useEffect } from "react";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import { FaCar, FaUsers, FaSnowflake, FaDoorOpen, FaTicketAlt, FaOptinMonster, FaFeather, FaCartPlus } from "react-icons/fa";
+import { FaCartPlus } from "react-icons/fa";
 import { addBooking } from "../services/api";
 
 
@@ -31,13 +29,14 @@ const BookingConfirmation = () => {
 
     useEffect(() => {
         console.log("Received Form Data:", formData);
-
+        // eslint-disable-next-line
         if (upload) {
+            // eslint-disable-next-line
             addData();
             setUpload(false)
         }
 
-
+        // eslint-disable-next-line
     }, [carId, formData]);
 
     const addData = async () => {
@@ -63,7 +62,7 @@ const BookingConfirmation = () => {
 
     const handleBooking = () => {
         const bookingId = carId;
-        const price = formData.rentalType == "Day" ? formData.price : (formData.price / 24).toFixed(2)
+        const price = formData.rentalType === "Day" ? formData.price : (formData.price / 24).toFixed(2)
         navigate(`/checkout?bookingId=${bookingId}&price=${price}`);
     };
 
@@ -98,7 +97,7 @@ const BookingConfirmation = () => {
                                 <td>{formData.pickupDate}</td>
                                 <td>$ {formData.price}</td>
                                 <td>{formData.rentalType}</td>
-                                <td>$ {formData.rentalType == "Day" ? formData.price : (formData.price / 24).toFixed(2)}</td>
+                                <td>$ {formData.rentalType === "Day" ? formData.price : (formData.price / 24).toFixed(2)}</td>
 
 
                             </tr>
